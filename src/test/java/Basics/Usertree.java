@@ -3,6 +3,7 @@ package Basics;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 
+import javax.swing.text.html.parser.Parser;
 import java.util.Scanner;
 
 import static io.restassured.RestAssured.given;
@@ -12,14 +13,17 @@ public class Usertree {
     public static void main(String[] args) {
 
         Scanner scanner=new Scanner(System.in);
+        System.out.println("Parent Email Address");
         String parentemail=scanner.next();
+        System.out.println("Parent User Name");
         String parentusername=scanner.next();
+        System.out.println("Parent First Name");
         String parentfirstname=scanner.next();
 
         RestAssured.baseURI="https://quickdev1.super.one";
 
         //User Status Check
-        given().header("Content-Type","application/json").header("Device-Type","WEB")
+        given().header("Content-Type","application/json").header("Bypass-W3villa-Areyxukcyb",true).header("Device-Type","WEB")
              .body("{\n" +
                         "    \"countryCode\": \"+91\",\n" +
                         "    \"countryName\": \"India\",\n" +
@@ -34,7 +38,7 @@ public class Usertree {
 
         //Get Verification URL
 
-     String verifyresponse=   given().queryParam("password","711b525c69e8b0edc6221518b8ff878f")
+     String verifyresponse=   given().header("Bypass-W3villa-Areyxukcyb",true).queryParam("password","711b525c69e8b0edc6221518b8ff878f")
                 .when().get("/reader/getVerificationHistory")
                 .then().statusCode(200).extract().response().asString();
         JsonPath js1=Reuseablemethods.rawtojson(verifyresponse);
@@ -45,7 +49,7 @@ public class Usertree {
        String vertoken= hash.substring(67,length);
         System.out.println(vertoken);
 
-        given().header("Device-Type","WEB")
+        given().header("Bypass-W3villa-Areyxukcyb",true).header("Device-Type","WEB")
                 .body("{\n" +
                         "    \"deviceType\": \"WEB\",\n" +
                         "    \"verification_token\": \""+vertoken+"\"\n" +
@@ -53,14 +57,14 @@ public class Usertree {
                 .when().post("/writer/v3/user/verifyUserToken")
                 .then().log().all().assertThat().statusCode(200);
 
-        String verificationresponse=given().header("Device-Type","WEB").queryParam("email",parentemail)
+        String verificationresponse=given().header("Bypass-W3villa-Areyxukcyb",true).header("Device-Type","WEB").queryParam("email",parentemail)
                 .when().get("/reader/user/checkVerificationStatus")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
         JsonPath js2=Reuseablemethods.rawtojson(verificationresponse);
         String token=js2.getString("data.token");
         System.out.println(token);
 
-        given().header("device-type","WEB").header("token",token)
+        given().header("Bypass-W3villa-Areyxukcyb",true).header("device-type","WEB").header("token",token)
                 .body("{\n" +
                         "    \"password\": \"Test@123\"\n" +
                         "}")
@@ -68,7 +72,7 @@ public class Usertree {
 
 
         //Verify Referral
-        given().header("device-type","WEB").header("token",token)
+        given().header("Bypass-W3villa-Areyxukcyb",true).header("device-type","WEB").header("token",token)
                 .body("{\n" +
                         "    \"email\": \""+parentemail+"\",\n" +
                         "    \"referralCode\": \"amrendra\"\n" +
@@ -76,7 +80,7 @@ public class Usertree {
                 .when().post("/writer/v3/user/verifyReferral").then().log().all().assertThat().statusCode(200);
 
         //Set Username
-      given().header("device-type","WEB").header("token",token)
+      given().header("Bypass-W3villa-Areyxukcyb",true).header("device-type","WEB").header("token",token)
                 .body("{\n" +
                         "    \"languageCode\": \"en\",\n" +
                         "    \"userName\": \""+parentusername+"\"\n" +
@@ -85,7 +89,7 @@ public class Usertree {
 
       //Set First and Last Name
 
-        String flresponse=given().header("device-type","WEB").header("token",token)
+        String flresponse=given().header("Bypass-W3villa-Areyxukcyb",true).header("device-type","WEB").header("token",token)
                 .body("{\n" +
                         "    \"firstName\": \""+parentfirstname+"\",\n" +
                         "    \"lastName\": \"test\"\n" +
@@ -93,39 +97,47 @@ public class Usertree {
                 .when().put("/writer/v3/user/100706/updateUserInfo")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
      JsonPath js3=Reuseablemethods.rawtojson(flresponse);
-     String id=js3.getString("data.id");
+
      String imageurl=js3.getString("data.imageUrl");
-        System.out.println(id);
+     Integer userid=js3.getInt("data.id");
+
         System.out.println(imageurl);
 
 
+
+
         //Avatar
-        given().header("device-type","WEB").header("token",token)
+        given().header("Bypass-W3villa-Areyxukcyb",true).log().all().header("device-type","WEB").header("Content-Type","application/json").header("token",token)
+
                 .body("{\n" +
                         "    \"avatarUrl\": \""+imageurl+"\",\n" +
                         "    \"mode\": \"AVATAR\",\n" +
-                        "    \"userId\": "+id+"")
+                        "    \"userId\": "+userid+"\n" +
+                        "}")
         .when().post("/writer/user/update-avatar")
-                .then().log().all().assertThat().statusCode(200);
+                .then().log().all().assertThat().statusCode(200).extract().response().asString();
 
-        System.out.println("0-Holding tank \n 1- Powerleg \n 2-Cashleg");
-        String legg=scanner.next();
+
+
+//        System.out.println("0-Holding tank \n 1- Powerleg \n 2-Cashleg");
+//        Integer legg=scanner.nextInt();
 
         //Settings
-       String settingsresponse= given().header("device-type","WEB").header("token",token)
-                .when().post("/writer/user/100622/settings")
+       String settingsresponse= given().log().all().header("Bypass-W3villa-Areyxukcyb",true).header("device-type","WEB").header("token",token)
+               .body("{}")
+                .when().post("/writer/user/"+userid+"/settings")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
        JsonPath jsonPath=new JsonPath(settingsresponse);
-       String leg=jsonPath.getString("data.settings["+legg+"].key");
+       String leg=jsonPath.getString("data.settings[1].key");
         System.out.println(leg);
 
         //Setting leg
 
-       String referralresponse= given().header("device-type","WEB").header("token",token)
+       String referralresponse= given().header("Bypass-W3villa-Areyxukcyb",true).header("device-type","WEB").header("token",token)
                 .body("{\n" +
-                        "    \"settings\":\""+leg+"\"\n" +
+                        "    \"settings\":\"PAYLEGSTATIC\"\n" +
                         "}")
-                .when().put("/writer/user/settings/update/100622")
+                .when().put("/writer/user/settings/update/"+userid+"")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
        JsonPath js4=Reuseablemethods.rawtojson(referralresponse);
        String referrallink=js4.getString("data.referralLink");
@@ -219,7 +231,7 @@ public class Usertree {
                 .when().put("/writer/v3/user/100706/updateUserInfo")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
         JsonPath js7=Reuseablemethods.rawtojson(treeflresponse);
-        String treeid=js7.getString("data.id");
+        Integer treeid=js7.getInt("data.id");
         String treeimageurl=js7.getString("data.imageUrl");
         System.out.println(treeid);
         System.out.println(treeimageurl);
@@ -230,7 +242,8 @@ public class Usertree {
                 .body("{\n" +
                         "    \"avatarUrl\": \""+treeimageurl+"\",\n" +
                         "    \"mode\": \"AVATAR\",\n" +
-                        "    \"userId\": 100707")
+                        "    \"userId\": "+treeid+"\n" +
+                        "}")
                 .when().post("/writer/user/update-avatar")
                 .then().log().all().assertThat().statusCode(200);
 
