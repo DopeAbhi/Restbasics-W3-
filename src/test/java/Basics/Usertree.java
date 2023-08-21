@@ -20,7 +20,7 @@ public class Usertree {
         System.out.println("Parent First Name");
         String parentfirstname=scanner.next();
 
-        RestAssured.baseURI="https://quickdev1.super.one";
+        RestAssured.baseURI="https://quickdev2.super.one";
 
         //User Status Check
         given().header("Content-Type","application/json").header("Bypass-W3villa-Areyxukcyb",true).header("Device-Type","WEB")
