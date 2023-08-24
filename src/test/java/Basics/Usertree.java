@@ -123,9 +123,9 @@ public class Usertree {
 //        Integer legg=scanner.nextInt();
 
         //Settings
-       String settingsresponse= given().log().all().header("Bypass-W3villa-Areyxukcyb",true).header("device-type","WEB").header("token",token)
+       String settingsresponse= given().log().all().header("device-type","WEB").header("token",token)
                .body("{}")
-                .when().post("/writer/user/"+userid+"/settings")
+                .when().post("/writer/user/100622/settings")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
        JsonPath jsonPath=new JsonPath(settingsresponse);
        String leg=jsonPath.getString("data.settings[1].key");
