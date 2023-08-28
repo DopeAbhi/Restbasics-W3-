@@ -6,36 +6,38 @@ import junit.framework.Assert;
 
 import javax.swing.text.html.parser.Parser;
 
+import java.util.Scanner;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 public class Transfer {
 
-    public static void main(String[] args) {
 
+
+    public static void main(String[] args) {
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("Sender Email");
+        String senderemail= scanner.next();
+        System.out.println("Sender Password");
+        String senderpass=scanner.next();
+        System.out.println("User to be Searched");
+        String searchuser=scanner.next();
+        System.out.println("Receiver Email ");
+        String receiveduser=scanner.next();
+        System.out.println("Enter receiver Password");
+        String receivepass=scanner.next();
+        System.out.println("Amount to be Transfer");
+        int amount=scanner.nextInt();
         //Check User exist
         RestAssured.baseURI="https://quickdev1.super.one";
         given().log().all().header("Device-Type","WEB").header("Content-Type","application/json")
-                .body("{\n" +
-                        "\"countryCode\": \"+91\",\n" +
-                        "\"countryName\": \"India\",\n" +
-                        "\"deviceToken\": \"\",\n" +
-                        "\"email\": \"mav401@t.com\",\n" +
-                        "\"lang\": \"en\",\n" +
-                        "\"referenceId\":\"\", \n" +
-                        "\"subscribeMarketing\": true\n" +
-                        "}")
+                .body(Transferpayload.statuspayload(senderemail))
                 .when().post("/writer/v3/user/checkAccountStatus")
                 .then().log().all().assertThat().statusCode(200).body("message",equalTo("User found."));
 
 //Login
        String loginresponse= given().log().all().header("Device-Type","WEB").header("Content-Type","application/json")
-                .body("{\n" +
-                        "\"deviceToken\": \"\",\n" +
-                        "\"deviceType\":\"WEB\",\n" +
-                        "\"email\": \"mav401@t.com\",\n" +
-                        "\"password\": \"Test@123\"\n" +
-                        "\n" +
-                        "}")
+                .body(Transferpayload.Loginpayload(senderemail,senderpass))
                 .when().patch("/writer/user/email/login")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
         JsonPath js =Reuseablemethods.rawtojson(loginresponse);
@@ -57,11 +59,7 @@ public class Transfer {
         //Search Member
 
       String memberdetail  =given().header("Device-Type","WEB").header("Token",token)
-                .body("{\n" +
-                        "\"limit\": 10,\n" +
-                        "\"pageNo\": 0,\n" +
-                        "\"referralCode\": \"mav402\"\n" +
-                        "}")
+                .body(Transferpayload.searchpayload(searchuser))
                 .when().post("/reader/member/searchmemberbyreferralcode")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
         JsonPath js2=Reuseablemethods.rawtojson(memberdetail);
@@ -73,13 +71,7 @@ public class Transfer {
         //Transfer
 
         given().header("Device-Type","WEB").header("Token",token)
-                .body("{\n" +
-                        "    \"amount\": 10,\n" +
-                        "    \"isReserve\": false,\n" +
-                        "    \"medium\": \"MOBILE\",\n" +
-                        "    \"receiverId\": "+memberid+",\n" +
-                        "    \"requestId\": \"\"\n" +
-                        "}")
+                .body(Transferpayload.Transferpayload(memberid,amount))
                 .when().post("/writer/v3/user/100623/transfer")
                 .then().log().all().assertThat().statusCode(200);
 
@@ -99,13 +91,7 @@ public class Transfer {
 
         //Checking for received  user
         String receiveuserresponse= given().log().all().header("Device-Type","WEB").header("Content-Type","application/json")
-                .body("{\n" +
-                        "\"deviceToken\": \"\",\n" +
-                        "\"deviceType\":\"WEB\",\n" +
-                        "\"email\": \"mav402@t.com\",\n" +
-                        "\"password\": \"Test@123\"\n" +
-                        "\n" +
-                        "}")
+                .body(Transferpayload.receiveduser(receiveduser,receivepass))
                 .when().patch("/writer/user/email/login")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
         JsonPath js4 =Reuseablemethods.rawtojson(receiveuserresponse);
