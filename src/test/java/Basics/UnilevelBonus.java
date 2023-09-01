@@ -36,15 +36,15 @@ public class UnilevelBonus {
      String searchresp=   given().header("device-type","WEB").header("token",token)
                 .queryParams("searchType","referralCode","userSearchByDetail",""+profiteer+"","countrySearchInput","")
                 .when().get("/reader/admin/searchUserByReferralCode")
-                .then().log().all().assertThat().statusCode(200).extract().response().asString();
+                .then().assertThat().statusCode(200).extract().response().asString();
      JsonPath searchjson=Reuseablemethods.rawtojson(searchresp);
      String highestpack=searchjson.getString("data.details[0].userRank");
      String email=searchjson.getString("data.details[0].email");
-           System.out.println(highestpack);
-           System.out.println(email);
-           System.out.println(reward);
            System.out.println(profiteer);
+           System.out.println(highestpack);
+           System.out.println(email);;
            System.out.println(re);
+           System.out.println(reward);
            j++;
 
         }while (re.equalsIgnoreCase("UNILEVEL"));
