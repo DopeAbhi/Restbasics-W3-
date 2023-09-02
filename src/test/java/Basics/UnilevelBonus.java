@@ -9,25 +9,25 @@ import static io.restassured.RestAssured.given;
 public class UnilevelBonus {
 
     public static void main(String[] args) {
-        String token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5MzU4Mzk1MywiZXhwIjoxNjk2MTc1OTUzfQ.ctk6Ydeszk1oMoQLaICIOCP428oPnC5WzTPxdlTfxsM";
+        String token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5MzYzMDczMywiZXhwIjoxNjk2MjIyNzMzfQ.CiD8kJeqEctrre6joESbbtb6dxBJ2Ea8UGglEIdQDaY";
 
         RestAssured.baseURI="https://quickdev3.super.one";
 
         //Get All Reward from Admin
      String rewardresp=   given().header("device-type","WEB").header("token",token)
-                .queryParams("skips",0,"start",0,"end","1693584026585","page_num",25,"memberPackageId","")
+                .queryParams("skips",0,"start",0,"end","1693633758533","page_num",25,"memberPackageId","")
                 .when().get("/reader/admin/getPayoutsList")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
         JsonPath rewardjson=Reuseablemethods.rawtojson(rewardresp);
         int j=0;
 
-        String re;
+        String rewardtype;
        do {
 
 
-            re = rewardjson.getString("data["+j+"].payoutType");
+            rewardtype = rewardjson.getString("data["+j+"].payoutType");
             String profiteer=rewardjson.getString("data["+j+"].profiteerReferralCode");
-           int reward=rewardjson.getInt("data["+j+"].distributeVolume");
+           String reward=rewardjson.getString("data["+j+"].distributeVolume");
 
 
 
@@ -43,11 +43,11 @@ public class UnilevelBonus {
            System.out.println(profiteer);
            System.out.println(highestpack);
            System.out.println(email);;
-           System.out.println(re);
+           System.out.println(rewardtype);
            System.out.println(reward);
            j++;
 
-        }while (re.equalsIgnoreCase("UNILEVEL"));
+        }while (rewardtype.equalsIgnoreCase("UNILEVEL"));
 
 
 
