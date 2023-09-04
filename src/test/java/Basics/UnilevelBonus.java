@@ -4,18 +4,23 @@ import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import junit.framework.Assert;
 
+import java.util.Date;
+
 import static io.restassured.RestAssured.given;
 
 public class UnilevelBonus {
 
     public static void main(String[] args) {
-        String token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5MzYzMDczMywiZXhwIjoxNjk2MjIyNzMzfQ.CiD8kJeqEctrre6joESbbtb6dxBJ2Ea8UGglEIdQDaY";
+        String token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5MzgzMTgzMCwiZXhwIjoxNjk2NDIzODMwfQ.l22R1tUXa9H0y924T2pk8AOLx9lPLyXkMwLxthEQOsE";
 
         RestAssured.baseURI="https://quickdev3.super.one";
 
         //Get All Reward from Admin
+
+        Date date=new Date();
+        long end=date.getTime();
      String rewardresp=   given().header("device-type","WEB").header("token",token)
-                .queryParams("skips",0,"start",0,"end","1693633758533","page_num",25,"memberPackageId","")
+                .queryParams("skips",0,"start",0,"end",""+end+"","page_num",25,"memberPackageId","")
                 .when().get("/reader/admin/getPayoutsList")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
         JsonPath rewardjson=Reuseablemethods.rawtojson(rewardresp);
