@@ -19,10 +19,8 @@ public class Usertree {
         String parentemail=scanner.next();
         System.out.println("Parent password");
         String parentpassword=scanner.next();
-        System.out.println("Parent User Name");
-        String parentusername=scanner.next();
-        System.out.println("Parent First Name");
-        String parentfirstname=scanner.next();
+
+
 
         RestAssured.baseURI="https://quickdev3.super.one";
 
@@ -72,14 +70,14 @@ public class Usertree {
 
             //verify user
 
-            given().header("Device-Type", "WEB")
+            given().header("device-type", "WEB")
                     .body(usertreepayload.verifyuserpayload(vertoken))
                     .when().post("/writer/v3/user/verifyUserToken")
                     .then().log().all().assertThat().statusCode(200);
 
             //Verification Check
 
-            String verificationresponse = given().header("Bypass-W3villa-Areyxukcyb", true).header("Device-Type", "WEB").queryParam("email", parentemail)
+            String verificationresponse = given().header("Bypass-W3villa-Areyxukcyb", true).header("device-type", "WEB").queryParam("email", parentemail)
                     .when().get("/reader/user/checkVerificationStatus")
                     .then().log().all().assertThat().statusCode(200).extract().response().asString();
             JsonPath js2 = Reuseablemethods.rawtojson(verificationresponse);
@@ -99,12 +97,15 @@ public class Usertree {
                     .when().post("/writer/v3/user/verifyReferral").then().log().all().assertThat().statusCode(200);
 
             //Set Username
+            System.out.println("Parent User Name");
+            String parentusername=scanner.next();
             given().header("Bypass-W3villa-Areyxukcyb", true).header("device-type", "WEB").header("token", token)
                     .body(usertreepayload.usernamepayload(parentusername))
                     .when().patch("/writer/v3/user/updateUserName").then().log().all().assertThat().statusCode(200);
 
             //Set First and Last Name
-
+            System.out.println("Parent First Name");
+            String parentfirstname=scanner.next();
             String flresponse = given().header("Bypass-W3villa-Areyxukcyb", true).header("device-type", "WEB").header("token", token)
                     .body(usertreepayload.namepayload(parentfirstname))
                     .when().put("/writer/v3/user/100706/updateUserInfo")
@@ -128,6 +129,13 @@ public class Usertree {
            referralLink=rawreferral.substring((rawreferral.length())-10,rawreferral.length());
             System.out.println(referralLink);
 
+            //Add Balance
+
+            given().header("Bypass-W3villa-Areyxukcyb", true).log().all().header("device-type", "WEB").header("Content-Type", "application/json").header("token", token)
+                    .queryParams("email",""+parentemail+"","amount","100000","password","711b525c69e8b0edc6221518b8ff878f")
+                    .when().get().
+            then().log().all().assertThat().statusCode(200);
+
         }
 
         System.out.println("How many Level ");
@@ -147,7 +155,7 @@ public class Usertree {
 
             //  Member Creation
             //User Status Check
-            given().header("Content-Type", "application/json").header("Device-Type", "WEB")
+            given().header("Content-Type", "application/json").header("device-type", "WEB")
                     .body(usertreepayload.userstatuspayload(childemail)).when().post("/writer/v3/user/checkAccountStatus").then().log().all().assertThat().statusCode(200);
 
             // Get Verification URL
@@ -164,14 +172,14 @@ public class Usertree {
 
             //Verify User
 
-            given().header("Device-Type", "WEB")
+            given().header("device-type", "WEB")
                     .body(usertreepayload.verifyuserpayload(treevertoken))
                     .when().post("/writer/v3/user/verifyUserToken")
                     .then().log().all().assertThat().statusCode(200);
 
             //Verification Check
 
-            String treeverificationresponse = given().header("Device-Type", "WEB").queryParam("email", childemail)
+            String treeverificationresponse = given().header("device-type", "WEB").queryParam("email", childemail)
                     .when().get("/reader/user/checkVerificationStatus")
                     .then().log().all().assertThat().statusCode(200).extract().response().asString();
             JsonPath js6 = Reuseablemethods.rawtojson(treeverificationresponse);
@@ -217,6 +225,12 @@ public class Usertree {
             referralLink = rawreferral.substring((rawreferral.length()) - 10, rawreferral.length());
             System.out.println(referralLink);
 
+            //Add Balance
+
+//            given().header("Bypass-W3villa-Areyxukcyb", true).log().all().header("device-type", "WEB").header("Content-Type", "application/json").header("token", treetoken)
+//                    .queryParams("email",""+childemail+"","amount","100000","password","711b525c69e8b0edc6221518b8ff878f")
+//                    .when().get().
+//                    then().log().all().assertThat().statusCode(200);
 
         }
 

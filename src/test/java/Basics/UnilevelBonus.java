@@ -20,7 +20,7 @@ public class UnilevelBonus {
         Date date=new Date();
         long end=date.getTime();
      String rewardresp=   given().header("device-type","WEB").header("token",token)
-                .queryParams("skips",0,"start",0,"end",""+end+"","page_num",25,"memberPackageId","116783")
+                .queryParams("skips",0,"start",0,"end",""+end+"","page_num",25,"memberPackageId","117112")
                 .when().get("/reader/admin/getPayoutsList")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
         JsonPath rewardjson=Reuseablemethods.rawtojson(rewardresp);
@@ -45,7 +45,7 @@ public class UnilevelBonus {
      JsonPath searchjson=Reuseablemethods.rawtojson(searchresp);
      String highestpack=searchjson.getString("data.details[0].userRank");
      String email=searchjson.getString("data.details[0].email");
-           System.out.println("UB "+j+"");
+           System.out.println("UB Receiver"+j+"");
            System.out.println(profiteer);
            System.out.println(highestpack);
            System.out.println(email);;
@@ -54,7 +54,7 @@ public class UnilevelBonus {
 
            j++;
 
-        }while (rewardtype.equalsIgnoreCase("UNILEVEL"));
+        }while (rewardtype.equalsIgnoreCase("UNILEVEL_BONUS"));
 
 
 
