@@ -11,7 +11,7 @@ import static io.restassured.RestAssured.given;
 public class UnilevelBonus {
 
     public static void main(String[] args) {
-        String token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5MzU4NDc1NiwiZXhwIjoxNjk2MTc2NzU2fQ.WC6eeH0Q7kgnqBamMXNKjd32qVtm8v7EDFTfum3y1lQ";
+        String token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NTM2MzQ1MywiZXhwIjoxNjk3OTU1NDUzfQ.37wjW-Y74nZ2BJ5kMcEGV22Yn5wCjcB3T_QgAoIvtgY";
 
         RestAssured.baseURI="https://quickdev3.super.one";
 
@@ -20,7 +20,7 @@ public class UnilevelBonus {
         Date date=new Date();
         long end=date.getTime();
      String rewardresp=   given().header("device-type","WEB").header("token",token)
-                .queryParams("skips",0,"start",0,"end",""+end+"","page_num",25,"memberPackageId","117112")
+                .queryParams("skips",0,"start",0,"end",""+end+"","page_num",25,"memberPackageId","117427")
                 .when().get("/reader/admin/getPayoutsList")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
         JsonPath rewardjson=Reuseablemethods.rawtojson(rewardresp);
