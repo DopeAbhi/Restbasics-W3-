@@ -81,6 +81,19 @@ public static String avatarpayload(String imageurl,int userid)
             "}";
 }
 
+public  static String pack_purchase_payload(int packnumber)
+{
+    return "{\n" +
+            "    \"isStore\": true,\n" +
+            "    \"isUpgrade\": false,\n" +
+            "    \"packagePaymentType\": \"CASH\",\n" +
+            "    \"packageType\": \"AFFILIATE\",\n" +
+            "    \"packageTypeId\": "+packnumber+",\n" +
+            "    \"purchaseType\": \"CASH\",\n" +
+            "    \"quantity\": 1,\n" +
+            "    \"reserve\": true\n" +
+            "}";
+}
 }
 
 

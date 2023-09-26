@@ -12,8 +12,6 @@ public class Packpurchase {
         Scanner scanner=new Scanner(System.in);
         System.out.println("Parent Email Address");
         String parentemail=scanner.next();
-        System.out.println("Parent password");
-        String parentpassword=scanner.next();
         System.out.println("Pack number");
         int packnumber=scanner.nextInt();
 
@@ -35,16 +33,7 @@ public class Packpurchase {
         System.out.println(token);
 
      String purchaseresp=   given().header("token",token).header("device-type","WEB")
-                .body("{\n" +
-                        "    \"isStore\": true,\n" +
-                        "    \"isUpgrade\": false,\n" +
-                        "    \"packagePaymentType\": \"CASH\",\n" +
-                        "    \"packageType\": \"AFFILIATE\",\n" +
-                        "    \"packageTypeId\": "+packnumber+",\n" +
-                        "    \"purchaseType\": \"CASH\",\n" +
-                        "    \"quantity\": 1,\n" +
-                        "    \"reserve\": true\n" +
-                        "}")
+                .body(usertreepayload.pack_purchase_payload(packnumber))
                 .when().patch("/writer/member/package/103138").
         then().log().all().assertThat().statusCode(200).extract().response().asString();
 

@@ -45,7 +45,7 @@ public class UnilevelBonus {
      JsonPath searchjson=Reuseablemethods.rawtojson(searchresp);
      String highestpack=searchjson.getString("data.details[0].userRank");
      String email=searchjson.getString("data.details[0].email");
-           System.out.println("UB Receiver"+j+"");
+           System.out.println("Reward Receiver" +(j+1));
            System.out.println(profiteer);
            System.out.println(highestpack);
            System.out.println(email);;
@@ -54,7 +54,7 @@ public class UnilevelBonus {
 
            j++;
 
-        }while (rewardtype.equalsIgnoreCase("UNILEVEL_BONUS"));
+        }while (rewardtype.equalsIgnoreCase("UNILEVEL_BONUS")||rewardtype.equalsIgnoreCase("INFINITY_BONUS"));
 
 
 
