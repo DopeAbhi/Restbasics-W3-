@@ -12,6 +12,8 @@ public class Packpurchase {
         Scanner scanner=new Scanner(System.in);
         System.out.println("Parent Email Address");
         String parentemail=scanner.next();
+        System.out.println("Parent password");
+        String parentpassword=scanner.next();
         System.out.println("Pack number");
         int packnumber=scanner.nextInt();
 
@@ -25,7 +27,7 @@ public class Packpurchase {
         //Login
 
         String loginresp= given().header("device-type","WEB")
-                .body(usertreepayload.loginpayload(parentemail))
+                .body(usertreepayload.loginpayload(parentemail,parentpassword))
                 .when().patch("/writer/user/email/login")
                 .then().assertThat().statusCode(200).extract().response().asString();
         JsonPath loginjson=Reuseablemethods.rawtojson(loginresp);
