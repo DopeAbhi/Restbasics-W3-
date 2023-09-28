@@ -42,6 +42,7 @@ public class Usertree {
                     .body(usertreepayload.intiateloginpayload(parentemail))
                     .when().patch("/writer/v2/user/email/initiatelogin")
                     .then().assertThat().statusCode(200);
+
             //Login
 
            String loginresp= given().header("device-type","WEB")

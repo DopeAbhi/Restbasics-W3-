@@ -1,16 +1,13 @@
 package Pojo;
 
-public class packpurchasepayloadd {
+public class purchasepayload {
 
-
-    private boolean isStore;
-    private boolean isUpgrade;
 
     public boolean isStore() {
         return isStore;
     }
 
-    public void setStore(boolean store) {
+    public void setisStore(boolean store) {
         isStore = store;
     }
 
@@ -18,58 +15,60 @@ public class packpurchasepayloadd {
         return isUpgrade;
     }
 
-    public void setUpgrade(boolean upgrade) {
+    public void setisUpgrade(boolean upgrade) {
         isUpgrade = upgrade;
     }
 
-    public String getPackagePaymentType() {
+    public String getpackagePaymentType() {
         return packagePaymentType;
     }
 
-    public void setPackagePaymentType(String packagePaymentType) {
+    public void setpackagePaymentType(String packagePaymentType) {
         this.packagePaymentType = packagePaymentType;
     }
 
-    public String getPackageType() {
+    public String getpackageType() {
         return packageType;
     }
 
-    public void setPackageType(String packageType) {
+    public void setpackageType(String packageType) {
         this.packageType = packageType;
     }
 
-    public int getPackageTypeId() {
+    public int getpackageTypeId() {
         return packageTypeId;
     }
 
-    public void setPackageTypeId(int packageTypeId) {
+    public void setpackageTypeId(int packageTypeId) {
         this.packageTypeId = packageTypeId;
     }
 
-    public String getPurchaseType() {
+    public String getpurchaseType() {
         return purchaseType;
     }
 
-    public void setPurchaseType(String purchaseType) {
+    public void setpurchaseType(String purchaseType) {
         this.purchaseType = purchaseType;
     }
 
-    public int getQuantity() {
+    public int getquantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setquantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public boolean isReserve() {
+    public boolean Reserve() {
         return reserve;
     }
 
-    public void setReserve(boolean reserve) {
+    public void setreserve(boolean reserve) {
         this.reserve = reserve;
     }
 
+    private boolean isStore;
+    private boolean isUpgrade;
     private String packagePaymentType;
     private String packageType;
     private int packageTypeId;
@@ -77,4 +76,9 @@ public class packpurchasepayloadd {
     private int quantity;
     private boolean reserve;
 
-}
+    }
+
+
+
+
+
