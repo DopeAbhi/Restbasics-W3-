@@ -8,6 +8,15 @@ import java.util.Scanner;
 import static io.restassured.RestAssured.given;
 
 public class Packpurchase {
+
+    /*
+    1-Entry
+    2-Bronze
+    3-Silver
+    4-Gold
+    7-Platinum
+    9-Diamond
+    */
     public static void main(String[] args) {
         Scanner scanner=new Scanner(System.in);
         System.out.println("Parent Email Address");

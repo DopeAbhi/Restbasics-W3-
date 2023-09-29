@@ -132,10 +132,10 @@ public class Usertree {
 
             //Add Balance
 
-            given().header("Bypass-W3villa-Areyxukcyb", true).log().all().header("device-type", "WEB").header("Content-Type", "application/json").header("token", token)
-                    .queryParams("email",""+parentemail+"","amount","100000","password","711b525c69e8b0edc6221518b8ff878f")
-                    .when().get().
-            then().log().all().assertThat().statusCode(200);
+//            given().header("Bypass-W3villa-Areyxukcyb", true).log().all().header("device-type", "WEB").header("Content-Type", "application/json").header("token", token)
+//                    .queryParams("email",""+parentemail+"","amount","100000","password","711b525c69e8b0edc6221518b8ff878f")
+//                    .when().get().
+//            then().log().all().assertThat().statusCode(200);
 
         }
 
@@ -228,10 +228,10 @@ public class Usertree {
 
             //Add Balance
 
-            given().header("Bypass-W3villa-Areyxukcyb", true).log().all().header("device-type", "WEB").header("Content-Type", "application/json").header("token", treetoken)
-                    .queryParams("email",""+childemail+"","amount","100000","password","711b525c69e8b0edc6221518b8ff878f")
-                    .when().get().
-                    then().log().all().assertThat().statusCode(200);
+//            given().header("Bypass-W3villa-Areyxukcyb", true).log().all().header("device-type", "WEB").header("Content-Type", "application/json").header("token", treetoken)
+//                    .queryParams("email",""+childemail+"","amount","100000","password","711b525c69e8b0edc6221518b8ff878f")
+//                    .when().get().
+//                    then().log().all().assertThat().statusCode(200);
 
         }
 
