@@ -1,7 +1,9 @@
 package Basics;
 
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.path.json.JsonPath;
+import io.restassured.specification.RequestSpecification;
 
 import javax.swing.text.html.parser.Parser;
 import java.util.Scanner;
@@ -85,30 +87,31 @@ public class Usertree {
             String token = js2.getString("data.token");
             System.out.println(token);
 
+            RequestSpecification req=new RequestSpecBuilder().addHeader("device-type", "WEB").addHeader("token", token)
+                            .build(); //Common parameter in single specbuilder class
             //set password
-            given().header("Bypass-W3villa-Areyxukcyb", true).header("device-type", "WEB").header("token", token)
-                    .body(usertreepayload.passwordpayload(parentpassword))
-                    .when().patch("/writer/v3/user/password/set").then().log().all().assertThat().statusCode(200);
+            given().spec(req).body(usertreepayload.passwordpayload(parentpassword))
+                    .when().patch("/writer/v3/user/password/set").
+                    then().log().all().assertThat().statusCode(200);
 
 
             //Verify Referral
             String referral="amrendra";
-            given().header("Bypass-W3villa-Areyxukcyb", true).header("device-type", "WEB").header("token", token)
-                    .body(usertreepayload.referralpayload(parentemail,referral))
-                    .when().post("/writer/v3/user/verifyReferral").then().log().all().assertThat().statusCode(200);
+            given().spec(req).body(usertreepayload.referralpayload(parentemail,referral))
+                    .when().post("/writer/v3/user/verifyReferral")
+                    .then().log().all().assertThat().statusCode(200);
 
             //Set Username
             System.out.println("Parent User Name");
             String parentusername=scanner.next();
-            given().header("Bypass-W3villa-Areyxukcyb", true).header("device-type", "WEB").header("token", token)
-                    .body(usertreepayload.usernamepayload(parentusername))
-                    .when().patch("/writer/v3/user/updateUserName").then().log().all().assertThat().statusCode(200);
+            given().spec(req).body(usertreepayload.usernamepayload(parentusername))
+                    .when().patch("/writer/v3/user/updateUserName").
+                    then().log().all().assertThat().statusCode(200);
 
             //Set First and Last Name
             System.out.println("Parent First Name");
             String parentfirstname=scanner.next();
-            String flresponse = given().header("Bypass-W3villa-Areyxukcyb", true).header("device-type", "WEB").header("token", token)
-                    .body(usertreepayload.namepayload(parentfirstname))
+            String flresponse = given().spec(req).body(usertreepayload.namepayload(parentfirstname))
                     .when().put("/writer/v3/user/100706/updateUserInfo")
                     .then().log().all().assertThat().statusCode(200).extract().response().asString();
             JsonPath js3 = Reuseablemethods.rawtojson(flresponse);
@@ -120,9 +123,7 @@ public class Usertree {
 
 
             //Avatar
-           avatarresp=  given().header("Bypass-W3villa-Areyxukcyb", true).log().all().header("device-type", "WEB").header("Content-Type", "application/json").header("token", token)
-
-                    .body(usertreepayload.avatarpayload(imageurl,userid))
+           avatarresp=  given().spec(req).body(usertreepayload.avatarpayload(imageurl,userid))
                     .when().post("/writer/user/update-avatar")
                     .then().log().all().assertThat().statusCode(200).extract().response().asString();
            JsonPath avatarjson=Reuseablemethods.rawtojson(avatarresp);
@@ -187,26 +188,29 @@ public class Usertree {
             String treetoken = js6.getString("data.token");
             System.out.println(treetoken);
 
+            RequestSpecification treereq=new RequestSpecBuilder().addHeader("device-type", "WEB").addHeader("token", treetoken)
+                    .build(); //Common parameter in single specbuilder class
+
+
             //Set password
-            given().header("device-type", "WEB").header("token", treetoken)
-                    .body(usertreepayload.passwordpayload(childpassword))
-                    .when().patch("/writer/v3/user/password/set").then().log().all().assertThat().statusCode(200);
+            given().spec(treereq).body(usertreepayload.passwordpayload(childpassword))
+                    .when().patch("/writer/v3/user/password/set")
+                    .then().log().all().assertThat().statusCode(200);
 
 
             //Verify Referral
-            given().header("device-type", "WEB").header("token", treetoken)
-                    .body(usertreepayload.referralpayload(childemail,referralLink))
-                    .when().post("/writer/v3/user/verifyReferral").then().log().all().assertThat().statusCode(200);
+            given().spec(treereq).body(usertreepayload.referralpayload(childemail,referralLink))
+                    .when().post("/writer/v3/user/verifyReferral")
+                    .then().log().all().assertThat().statusCode(200);
 
             //Set Username
-            given().header("device-type", "WEB").header("token", treetoken)
-                    .body(usertreepayload.usernamepayload(childusername))
-                    .when().patch("/writer/v3/user/updateUserName").then().log().all().assertThat().statusCode(200);
+            given().spec(treereq).body(usertreepayload.usernamepayload(childusername))
+                    .when().patch("/writer/v3/user/updateUserName")
+                    .then().log().all().assertThat().statusCode(200);
 
             //Set First and Last Name
 
-            String treeflresponse = given().header("device-type", "WEB").header("token", treetoken)
-                    .body(usertreepayload.namepayload(childfirstname))
+            String treeflresponse = given().spec(treereq).body(usertreepayload.namepayload(childfirstname))
                     .when().put("/writer/v3/user/100706/updateUserInfo")
                     .then().log().all().assertThat().statusCode(200).extract().response().asString();
             JsonPath js7 = Reuseablemethods.rawtojson(treeflresponse);
@@ -217,7 +221,7 @@ public class Usertree {
 
 
             //Avatar
-            String treeavatarresp = given().header("device-type", "WEB").header("token", treetoken)
+            String treeavatarresp = given().spec(treereq)
                     .body(usertreepayload.avatarpayload(treeimageurl,treeid))
                     .when().post("/writer/user/update-avatar")
                     .then().log().all().assertThat().statusCode(200).extract().response().asString();
