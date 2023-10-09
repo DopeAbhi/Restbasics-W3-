@@ -3,18 +3,12 @@ package Basics;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Iterator;
 import java.util.Scanner;
 
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import static io.restassured.RestAssured.given;
 
-public class Packpurchase {
+public class Packpurchase extends  exceltest {
 
     /*
     1-Entry
@@ -24,7 +18,7 @@ public class Packpurchase {
     7-Platinum
     9-Diamond
     */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner scanner=new Scanner(System.in);
         System.out.println("Parent Email Address");
         String parentemail=scanner.next();
