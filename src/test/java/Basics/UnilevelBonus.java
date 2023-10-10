@@ -54,7 +54,7 @@ public class UnilevelBonus {
 
            j++;
 
-        }while (rewardtype.equalsIgnoreCase("UNILEVEL_BONUS")||rewardtype.equalsIgnoreCase("INFINITY_BONUS"));
+        }while (rewardtype.equalsIgnoreCase("UNILEVEL_BONUS")||rewardtype.equalsIgnoreCase("INFINITY_BONUS")||rewardtype.equalsIgnoreCase("LEADER_BONUS"));
 
 
 
