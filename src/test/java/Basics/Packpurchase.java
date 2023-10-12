@@ -29,7 +29,7 @@ public class Packpurchase {
     */
     public static void main(String[] args) throws IOException {
 
-        String[] userdata = new String[4];
+        String[] userdata = new String[3];
         FileInputStream fis = new FileInputStream("/home/abhay/Restbasics-W3-/src/test/java/resources/Superone.xlsx");
         XSSFWorkbook workbook = new XSSFWorkbook(fis);
         int sheets = workbook.getNumberOfSheets();
