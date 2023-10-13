@@ -1,0 +1,3 @@
+<logger name="org.apache.poi">
+    <level value="OFF" />
+</logger>
