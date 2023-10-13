@@ -37,7 +37,7 @@ import static io.restassured.RestAssured.given;
                 //Login
                 for (int i = 0; i < sheets; i++) {
 
-                    if (workbook.getSheetName(i).equalsIgnoreCase("Packpurchase")) {
+                    if (workbook.getSheetName(i).equalsIgnoreCase("Packpurchase ")) {
                         XSSFSheet sheet = workbook.getSheetAt(i);
 
                         Iterator<Row> rows = sheet.iterator();// sheet is collection of rows
