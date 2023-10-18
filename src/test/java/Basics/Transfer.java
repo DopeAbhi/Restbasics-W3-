@@ -25,7 +25,7 @@ public class Transfer {
 
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         String transferdata[]=new String[5];
 
 //        Scanner scanner=new Scanner(System.in);
@@ -85,6 +85,7 @@ public class Transfer {
                             .body(Transferpayload.statuspayload(transferdata[0]))
                             .when().post("/writer/v3/user/checkAccountStatus")
                             .then().log().all().assertThat().statusCode(200).body("message", equalTo("User found."));
+
 
 //Login
                     String loginresponse = given().log().all().header("Device-Type", "WEB").header("Content-Type", "application/json")
