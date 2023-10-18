@@ -22,7 +22,7 @@ public class Usertree {
 
     public static void main(String[] args) throws IOException {
         String avatarresp;
-        String referralLink=null;
+
 
 //        Scanner scanner=new Scanner(System.in);
 //        System.out.println("Parent Email Address");
@@ -40,6 +40,7 @@ public class Usertree {
 
         //Login
         for (int i = 0; i < sheets; i++) {
+            String referralLink = null;
 
             if (workbook.getSheetName(i).equalsIgnoreCase("UserTree")) {
                 XSSFSheet sheet = workbook.getSheetAt(i);
@@ -136,8 +137,8 @@ public class Usertree {
 
 
                             //Verify Referral
-                            String referral = "amrendra";
-                            given().spec(req).body(usertreepayload.referralpayload(Treedata[0], referral))
+
+                            given().spec(req).body(usertreepayload.referralpayload(Treedata[0], "amrendra"))
                                     .when().post("/writer/v3/user/verifyReferral")
                                     .then().log().all().assertThat().statusCode(200);
 
@@ -242,7 +243,7 @@ public class Usertree {
 
 
                         //Verify Referral
-                        given().spec(treereq).body(usertreepayload.referralpayload(Treedata[0], referralLink))
+                        given().log().all().spec(treereq).body(usertreepayload.referralpayload(Treedata[0],referralLink))
                                 .when().post("/writer/v3/user/verifyReferral")
                                 .then().log().all().assertThat().statusCode(200);
 
