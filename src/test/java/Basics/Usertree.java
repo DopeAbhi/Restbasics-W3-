@@ -67,7 +67,7 @@ public class Usertree {
                     }
 
 
-                    if (T ==true) {
+                    if (T) {
 
                         //User Status Check
                         String statusresp = given().header("Content-Type", "application/json").header("Bypass-W3villa-Areyxukcyb", true).header("Device-Type", "WEB")
