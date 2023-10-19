@@ -54,13 +54,13 @@ public static String passwordpayload(String password)
             "    \"password\": \""+password+"\"\n" +
             "}";
 }
-public static String referralpayload(String email, String referral)
-{
+public static String referralpayload(String email, String referral){
     return "{\n" +
-            "    \"email\": \"" + email + "\",\n" +
+            "    \"email\": \""+email+"\",\n" +
             "    \"referralCode\": \""+referral+"\"\n" +
             "}";
 }
+
 public static String usernamepayload(String username)
 {
     return "{\n" +

@@ -22,6 +22,7 @@ public class Usertree {
 
     public static void main(String[] args) throws IOException {
         String avatarresp;
+        boolean T = true;
 
 
 //        Scanner scanner=new Scanner(System.in);
@@ -54,7 +55,7 @@ public class Usertree {
 
                     Iterator<Cell> ce = row.cellIterator();
                     int k = 0;
-                    int T = 0;
+
                     while (ce.hasNext()) {
                         Cell value = ce.next();
 
@@ -65,8 +66,8 @@ public class Usertree {
                         k++;
                     }
 
-                    if (T < 1) {
 
+                    if (T ==true) {
 
                         //User Status Check
                         String statusresp = given().header("Content-Type", "application/json").header("Bypass-W3villa-Areyxukcyb", true).header("Device-Type", "WEB")
@@ -93,14 +94,13 @@ public class Usertree {
                                     .when().patch("/writer/user/email/login")
                                     .then().log().all().assertThat().statusCode(200).extract().response().asString();
                             JsonPath loginjson = Reuseablemethods.rawtojson(loginresp);
-                            String rawreferral = loginjson.getString("data.referralLink");
-                            referralLink = rawreferral.substring((rawreferral.length()) - 10, rawreferral.length());
+                            referralLink = loginjson.getString("data.referralCode");
+
                             System.out.println(referralLink);
-                            T++;
+                     
 
 
-                        }
-                        else {
+                        } else {
                             //Get Verification URL
 
                             String verifyresponse = given().header("Bypass-W3villa-Areyxukcyb", true).queryParam("password", "711b525c69e8b0edc6221518b8ff878f")
@@ -138,7 +138,7 @@ public class Usertree {
 
                             //Verify Referral
 
-                            given().spec(req).body(usertreepayload.referralpayload(Treedata[0], "amrendra"))
+                            given().spec(req).body(usertreepayload.referralpayload(Treedata[0], ""))
                                     .when().post("/writer/v3/user/verifyReferral")
                                     .then().log().all().assertThat().statusCode(200);
 
@@ -171,7 +171,7 @@ public class Usertree {
                             String rawreferral = avatarjson.getString("data.referralLink");
                             referralLink = rawreferral.substring((rawreferral.length()) - 10, rawreferral.length());
                             System.out.println(referralLink);
-                            T++;
+
 
                             //Add Balance
 
@@ -181,25 +181,12 @@ public class Usertree {
 //            then().log().all().assertThat().statusCode(200);
 
                         }
+                        T=false;
                     }
-
-//                    System.out.println("How many Level ");
-//                    int user = scanner.nextInt();
-
-
-//
-//                        System.out.println("Child Email");
-//                        String childemail = scanner.next();
-//                        System.out.println("Child password");
-//                        String childpassword = scanner.next();
-//                        System.out.println("Child Username");
-//                        String childusername = scanner.next();
-//                        System.out.println("Child Firstname");
-//                        String childfirstname = scanner.next();
-
-
-                    //  Member Creation
                     else {
+
+                        //  Member Creation
+
                         //User Status Check
                         given().header("Content-Type", "application/json").header("device-type", "WEB")
                                 .body(usertreepayload.userstatuspayload(Treedata[0])).when().post("/writer/v3/user/checkAccountStatus").then().log().all().assertThat().statusCode(200);
@@ -243,7 +230,7 @@ public class Usertree {
 
 
                         //Verify Referral
-                        given().log().all().spec(treereq).body(usertreepayload.referralpayload(Treedata[0],referralLink))
+                        given().log().all().spec(treereq).body(usertreepayload.referralpayload(Treedata[0], referralLink))
                                 .when().post("/writer/v3/user/verifyReferral")
                                 .then().log().all().assertThat().statusCode(200);
 
@@ -273,15 +260,12 @@ public class Usertree {
                         String rawreferral = treeavatarjson.getString("data.referralLink");
                         referralLink = rawreferral.substring((rawreferral.length()) - 10, rawreferral.length());
                         System.out.println(referralLink);
-                        T++;
-                        //Add Balance
 
-//            given().header("Bypass-W3villa-Areyxukcyb", true).log().all().header("device-type", "WEB").header("Content-Type", "application/json").header("token", treetoken)
-//                    .queryParams("email",""+childemail+"","amount","100000","password","711b525c69e8b0edc6221518b8ff878f")
-//                    .when().get().
-//                    then().log().all().assertThat().statusCode(200);
+
+
+T=false;
+
                     }
-
                 }
 
 
@@ -292,5 +276,9 @@ public class Usertree {
     }
 }
 
-
+//Add Balance
+//            given().header("Bypass-W3villa-Areyxukcyb", true).log().all().header("device-type", "WEB").header("Content-Type", "application/json").header("token", treetoken)
+//                    .queryParams("email",""+childemail+"","amount","100000","password","711b525c69e8b0edc6221518b8ff878f")
+//                    .when().get().
+//                    then().log().all().assertThat().statusCode(200);
 
