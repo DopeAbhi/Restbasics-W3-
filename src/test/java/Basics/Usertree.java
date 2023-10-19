@@ -25,13 +25,6 @@ public class Usertree {
         boolean T = true;
 
 
-//        Scanner scanner=new Scanner(System.in);
-//        System.out.println("Parent Email Address");
-//        String parentemail=scanner.next();
-//        System.out.println("Parent password");
-//        String parentpassword=scanner.next();
-
-
         String[] Treedata = new String[4];
         FileInputStream fis = new FileInputStream("/home/abhay/Restbasics-W3-/src/test/java/resources/Superone.xlsx");
         XSSFWorkbook workbook = new XSSFWorkbook(fis);
@@ -88,7 +81,6 @@ public class Usertree {
                                     .then().assertThat().statusCode(200);
 
                             //Login
-
                             String loginresp = given().header("device-type", "WEB")
                                     .body(usertreepayload.loginpayload(Treedata[0], Treedata[1]))
                                     .when().patch("/writer/user/email/login")
@@ -137,21 +129,16 @@ public class Usertree {
 
 
                             //Verify Referral
-
                             given().spec(req).body(usertreepayload.referralpayload(Treedata[0], ""))
                                     .when().post("/writer/v3/user/verifyReferral")
                                     .then().log().all().assertThat().statusCode(200);
 
                             //Set Username
-//                    System.out.println("Parent User Name");
-//                    String parentusername = scanner.next();
                             given().spec(req).body(usertreepayload.usernamepayload(Treedata[2]))
                                     .when().patch("/writer/v3/user/updateUserName").
                                     then().log().all().assertThat().statusCode(200);
 
                             //Set First and Last Name
-//                    System.out.println("Parent First Name");
-//                    String parentfirstname = scanner.next();
                             String flresponse = given().spec(req).body(usertreepayload.namepayload(Treedata[3]))
                                     .when().put("/writer/v3/user/100706/updateUserInfo")
                                     .then().log().all().assertThat().statusCode(200).extract().response().asString();
@@ -264,7 +251,6 @@ public class Usertree {
 
 
 T=false;
-
                     }
                 }
 
@@ -276,9 +262,5 @@ T=false;
     }
 }
 
-//Add Balance
-//            given().header("Bypass-W3villa-Areyxukcyb", true).log().all().header("device-type", "WEB").header("Content-Type", "application/json").header("token", treetoken)
-//                    .queryParams("email",""+childemail+"","amount","100000","password","711b525c69e8b0edc6221518b8ff878f")
-//                    .when().get().
-//                    then().log().all().assertThat().statusCode(200);
+
 
