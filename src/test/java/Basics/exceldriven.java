@@ -28,7 +28,7 @@ public class exceldriven {
 
         for (int i = 0; i < sheets; i++) {
 
-            if (workbook.getSheetName(i).equalsIgnoreCase("UserTree")) {
+            if (workbook.getSheetName(i).equalsIgnoreCase("PlayerDetails")) {
                 XSSFSheet sheet = workbook.getSheetAt(i);
 
 
@@ -47,6 +47,7 @@ public class exceldriven {
                         if (value.getStringCellValue().equalsIgnoreCase("Email")) {
 
                             System.out.println(value.getStringCellValue());
+
                             column = k;
 
 
@@ -56,14 +57,15 @@ public class exceldriven {
 
                     while (rows.hasNext()) {
                         Row r = rows.next();
-                        if (r.getCell(column).getStringCellValue().equalsIgnoreCase("Abhay")) {
+
                             Iterator<Cell> cv = r.cellIterator();
                             while (cv.hasNext()) {
                                 Cell c = cv.next();
                                 System.out.println(c.getStringCellValue());
 
+
                             }
-                        }
+
 
 
                     }
