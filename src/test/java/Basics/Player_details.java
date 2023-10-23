@@ -11,20 +11,18 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
-public class TestFile {
+public class Player_details {
     public static void main(String[] args) throws IOException {
         int rowNum;
 
 
         // Load an existing Excel file
-        //  FileInputStream fis = new FileInputStream("/home/abhay/Restbasics-W3-/src/test/java/resources/Superone2.xlsx");
-        FileInputStream fis = new FileInputStream("/Users/abhayverma/IdeaProjects/BasicsofRest/src/test/java/resources/Superone2.xlsx"); //for mac
+          FileInputStream fis = new FileInputStream("/home/abhay/Restbasics-W3-/src/test/java/resources/Superone2.xlsx");
+        //FileInputStream fis = new FileInputStream("/Users/abhayverma/IdeaProjects/BasicsofRest/src/test/java/resources/Superone2.xlsx"); //for mac
         XSSFWorkbook workbook = new XSSFWorkbook(fis);
 
         // Specify the sheet name where you want to add/overwrite data
@@ -64,7 +62,7 @@ public class TestFile {
 ///Login Access
 
         String avatarresp;
-        ArrayList < List> userdata=new ArrayList<>();
+        String [] userdata=new String[10];
         boolean T = true;
 
 
@@ -129,17 +127,27 @@ public class TestFile {
                                     .then().log().all().assertThat().statusCode(200).extract().response().asString();
                             JsonPath loginjson = Reuseablemethods.rawtojson(loginresp);
                             referralLink = loginjson.getString("data.referralCode");
+                            userdata[0]= loginjson.getString("data.email");
+                            userdata[1]= loginjson.getString("data.firstName");
+                            userdata[2]= loginjson.getString("data.lastName");
+                            userdata[3] =loginjson.getString("data.userName");
+                            userdata[4] =loginjson.getString("data.id");
+                            userdata[5]= loginjson.getString("data.member");
+                            userdata[6]= loginjson.getString("data.imageUrl");
+                            userdata[7]= loginjson.getString("data.countryCode");
+                            userdata[8]= loginjson.getString("data.countryName");
+                            userdata[9]= loginjson.getString("data.token");
 
                             System.out.println(referralLink);
 
-                            for (int l = 0; l <userdata.size() ; l++) {
+                            for (int l = 0; l <userdata.length ; l++) {
 
                                 Cell cell = row.createCell(l); // Specify the cell index (0, 1, 2, ...)
                                 // Specify the cell index (0, 1, 2, ...)
 
                                 // Set the cell value (e.g., from your API response)
                                 // Example:
-                                cell.setCellValue("yes");
+                                cell.setCellValue(userdata[l]);
 
 
                             }
@@ -215,6 +223,33 @@ public class TestFile {
                             referralLink = rawreferral.substring((rawreferral.length()) - 10, rawreferral.length());
                             System.out.println(referralLink);
 
+                            userdata[0]= avatarjson.getString("data.email");
+                            userdata[1]= avatarjson.getString("data.firstName");
+                            userdata[2]= avatarjson.getString("data.lastName");
+                            userdata[3] =avatarjson.getString("data.userName");
+                            userdata[4] =avatarjson.getString("data.id");
+                            userdata[5]= avatarjson.getString("data.member");
+                            userdata[6]= avatarjson.getString("data.imageUrl");
+                            userdata[7]= avatarjson.getString("data.countryCode");
+                            userdata[8]= avatarjson.getString("data.countryName");
+                            userdata[9]= js2.getString("data.token");
+
+
+                            System.out.println(referralLink);
+
+                            for (int l = 0; l <userdata.length ; l++) {
+
+                                Cell cell = row.createCell(l); // Specify the cell index (0, 1, 2, ...)
+                                // Specify the cell index (0, 1, 2, ...)
+
+                                // Set the cell value (e.g., from your API response)
+                                // Example:
+                                cell.setCellValue(userdata[l]);
+
+
+                            }
+                            rowNum++;
+                            row = sheet.createRow(rowNum);
 
                             //Add Balance
 
@@ -302,12 +337,41 @@ public class TestFile {
                         String rawreferral = treeavatarjson.getString("data.referralLink");
                         referralLink = rawreferral.substring((rawreferral.length()) - 10, rawreferral.length());
                         System.out.println(referralLink);
+                        userdata[0]= treeavatarjson.getString("data.email");
+                        userdata[1]= treeavatarjson.getString("data.firstName");
+                        userdata[2]= treeavatarjson.getString("data.lastName");
+                        userdata[3] =treeavatarjson.getString("data.userName");
+                        userdata[4] =treeavatarjson.getString("data.id");
+                        userdata[5]= treeavatarjson.getString("data.member");
+                        userdata[6]= treeavatarjson.getString("data.imageUrl");
+                        userdata[7]= treeavatarjson.getString("data.countryCode");
+                        userdata[8]= treeavatarjson.getString("data.countryName");
+                        userdata[9]= js6.getString("data.token");
+
+
+                        System.out.println(referralLink);
+
+                        for (int l = 0; l <userdata.length ; l++) {
+
+                            Cell cell = row.createCell(l); // Specify the cell index (0, 1, 2, ...)
+                            // Specify the cell index (0, 1, 2, ...)
+
+                            // Set the cell value (e.g., from your API response)
+                            // Example:
+                            cell.setCellValue(userdata[l]);
+
+
+                        }
+                        rowNum++;
+                        row = sheet.createRow(rowNum);
+
 
 
                         T = false;
                     }
                 }
-                FileOutputStream fileOutputStream = new FileOutputStream("/Users/abhayverma/IdeaProjects/BasicsofRest/src/test/java/resources/Superone2.xlsx");
+               // FileOutputStream fileOutputStream = new FileOutputStream("/Users/abhayverma/IdeaProjects/BasicsofRest/src/test/java/resources/Superone2.xlsx");
+                FileOutputStream fileOutputStream = new FileOutputStream("/home/abhay/Restbasics-W3-/src/test/java/resources/Superone2.xlsx");
                 workbook.write(fileOutputStream);
                 fileOutputStream.close();
 
