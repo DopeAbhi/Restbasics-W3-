@@ -43,21 +43,6 @@ public class Player_details {
 
             Row row = sheet.createRow(rowNum);
 
-            for (int i = 0; i < 10; i++) {
-
-
-                Cell cell = row.createCell(i); // Specify the cell index (0, 1, 2, ...)
-                // Specify the cell index (0, 1, 2, ...)
-
-                // Set the cell value (e.g., from your API response)
-                // Example:
-                cell.setCellValue("yes");
-            }
-
-
-
-
-        // Save the changes to the Excel file
 
 ///Login Access
 
