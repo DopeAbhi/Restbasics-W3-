@@ -43,7 +43,7 @@ public class Transfer {
 //        System.out.println("Amount to be Transfer");
 //        int amount=scanner.nextInt();
         //Check User exist
-        FileInputStream fis = new FileInputStream("/home/abhay/Restbasics-W3-/src/test/java/resources/Superone.xlsx");
+        FileInputStream fis = new FileInputStream("/home/abhay/IdeaProjects/Restbasics-W3-/src/test/java/resources/Superone.xlsx");
         XSSFWorkbook workbook = new XSSFWorkbook(fis);
         int sheets = workbook.getNumberOfSheets();
         RestAssured.baseURI = "https://quickdev3.super.one";
