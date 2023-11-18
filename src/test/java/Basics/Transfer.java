@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import resources.APIResources;
 
 import javax.swing.text.html.parser.Parser;
 
@@ -20,7 +21,10 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.requestSpecification;
 import static org.hamcrest.Matchers.equalTo;
+import static resources.Utils.requestSpecification;
+
 public class Transfer {
 
 
@@ -28,26 +32,10 @@ public class Transfer {
     public static void main(String[] args) throws IOException, InterruptedException {
         String transferdata[]=new String[5];
 
-//        Scanner scanner=new Scanner(System.in);
-//
-//        System.out.println("Sender Email");
-//        String senderemail= scanner.next();
-//        System.out.println("Sender Password");
-//        String senderpass=scanner.next();
-//        System.out.println("User to be Searched");
-//        String searchuser=scanner.next();
-//        System.out.println("Receiver Email ");
-//        String receiveduser=scanner.next();
-//        System.out.println("Enter receiver Password");
-//        String receivepass=scanner.next();
-//        System.out.println("Amount to be Transfer");
-//        int amount=scanner.nextInt();
-        //Check User exist
+//Data Reading from Excel
         FileInputStream fis = new FileInputStream("/home/abhay/IdeaProjects/Restbasics-W3-/src/test/java/resources/Superone.xlsx");
         XSSFWorkbook workbook = new XSSFWorkbook(fis);
         int sheets = workbook.getNumberOfSheets();
-        RestAssured.baseURI = "https://quickdev3.super.one";
-
         for (int i = 0; i < sheets; i++) {
 
             if (workbook.getSheetName(i).equalsIgnoreCase("Transfer")) {
@@ -80,86 +68,70 @@ public class Transfer {
                     }
 
 
-                    RestAssured.baseURI = "https://quickdev3.super.one";
-                    given().log().all().header("Device-Type", "WEB").header("Content-Type", "application/json")
-                            .body(Transferpayload.statuspayload(transferdata[0]))
-                            .when().post("/writer/v3/user/checkAccountStatus")
-                            .then().log().all().assertThat().statusCode(200).body("message", equalTo("User found."));
 
-
-//Login
-                    String loginresponse = given().log().all().header("Device-Type", "WEB").header("Content-Type", "application/json")
-                            .body(Transferpayload.Loginpayload(transferdata[0], transferdata[1]))
-                            .when().patch("/writer/user/email/login")
-                            .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                    JsonPath js = Reuseablemethods.rawtojson(loginresponse);
-                    String token = js.getString("data.token");
-                    System.out.println(token);
+                //Sender Login
+                    ArrayList<String> sender_logindata;
+              sender_logindata= Login.Loginfeature(transferdata[0],transferdata[1]);
+                    System.out.println(sender_logindata.get(1));
 
 
                     //Get wallet data
-
-                    String walletdata = given().header("Device-Type", "WEB").header("Token", token)
-                            .when().get("/reader/members/get/walletdata")
+                    APIResources apiResources=APIResources.valueOf("get_walletdata");
+                    String sender_wallet_response = given().spec(requestSpecification()).header("Token", sender_logindata.get(1))
+                            .when().get(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                    JsonPath js1 = Reuseablemethods.rawtojson(walletdata);
-                    String freebalance = js1.getString("data.Balance.freeBalance");
-                    System.out.println(freebalance);
+                    JsonPath sender_wallet_json = Reuseablemethods.rawtojson(sender_wallet_response);
+                    String sender_free_balance = sender_wallet_json.getString("data.Balance.freeBalance");
+                    System.out.println(sender_free_balance);
 
                     //Login receiver
-                    String receiveuserresponse = given().log().all().header("Device-Type", "WEB").header("Content-Type", "application/json")
-                            .body(Transferpayload.receiveduser(transferdata[2], transferdata[3]))
-                            .when().patch("/writer/user/email/login")
-                            .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                    JsonPath js4 = Reuseablemethods.rawtojson(receiveuserresponse);
-                    String receiver_token = js4.getString("data.token");
-                   String receiver_referralcode= js4.getString("data.referralCode");
-                    System.out.println(receiver_token);
+                    ArrayList<String> receiver_logindata;
+
+                     receiver_logindata=Login.Loginfeature(transferdata[2], transferdata[3]);
+                    
+//                   String receiver_referralcode= js4.getString("data.referralCode");
+//                    System.out.println(receiver_token);
 
                     //Search Member
-
-                    String memberdetail = given().header("Device-Type", "WEB").header("Token", token)
-                            .body(Transferpayload.searchpayload(receiver_referralcode))
-                            .when().post("/reader/member/searchmemberbyreferralcode")
+                    apiResources=APIResources.valueOf("member_search");
+                    String member_search_response = given().spec(requestSpecification()).header("Token", sender_logindata.get(1))
+                            .body(Transferpayload.searchpayload(receiver_logindata.get(2)))
+                            .when().post(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                    JsonPath js2 = Reuseablemethods.rawtojson(memberdetail);
-                    String memberid = js2.getString("data.members[0].id");
-                    System.out.println(memberid);
+                    JsonPath member_search_json = Reuseablemethods.rawtojson(member_search_response);
+                    String receiver_memberid = member_search_json.getString("data.members[0].id");
+                    System.out.println(receiver_memberid);
 
 
                     //Transfer
-
-                    given().header("Device-Type", "WEB").header("Token", token)
-                            .body(Transferpayload.Transferpayload(memberid, (int)Double.parseDouble(transferdata[4])))
-                            .when().post("/writer/v3/user/100623/transfer")
+                    apiResources=APIResources.valueOf("transfer");
+                    given().spec(requestSpecification()).header("Token", sender_logindata.get(1))
+                            .body(Transferpayload.Transferpayload(receiver_memberid, (int)Double.parseDouble(transferdata[4])))
+                            .when().post(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200);
+                    
 
-                    //Checking Balance is deducted
 
-                    String wallettrdata = given().header("Device-Type", "WEB").header("Token", token)
-                            .when().get("/reader/members/get/walletdata")
+                    //Checking Receiver Received Amount
+                    apiResources= APIResources.valueOf("get_walletdata");
+                    String receiver_wallet_response = given().spec(requestSpecification()).header("Token", receiver_logindata.get(1))
+                           .when().get(apiResources.getResource())
+                           .then().log().all().assertThat().statusCode(200).extract().response().asString();
+                    JsonPath receiver_wallet_json = Reuseablemethods.rawtojson(receiver_wallet_response);
+                    String receiver_received_amount = receiver_wallet_json.getString("data.Balance.freeBalance");
+                    System.out.println(receiver_received_amount);
+
+                    
+
+                    //Checking Balance is deducted from sender
+
+                   apiResources=APIResources.valueOf("get_walletdata");
+                    String sender_wallet = given().spec(requestSpecification()).header("Token", sender_logindata.get(1))
+                            .when().get(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                    JsonPath js3 = Reuseablemethods.rawtojson(wallettrdata);
-                    String freetrbalance = js3.getString("data.Balance.freeBalance");
-                    System.out.println(freetrbalance);
-//        System.out.println(freebalance);
-//        int trbal=Integer.parseInt(freetrbalance);
-//        int bal=Integer.parseInt(freebalance);
-//        Assert.assertEquals(bal-10,trbal);
-
-
-
-
-                    //Get wallet data
-
-                    String receiverwalletdata = given().header("Device-Type", "WEB").header("Token", receiver_token)
-                            .when().get("/reader/members/get/walletdata")
-                            .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                    JsonPath js5 = Reuseablemethods.rawtojson(receiverwalletdata);
-                    String receiverfreebalance = js5.getString("data.Balance.freeBalance");
-                    System.out.println(receiverfreebalance);
-                    //int refreebalance=Integer.parseInt(receiverfreebalance);
-
+                    JsonPath sender_wallett = Reuseablemethods.rawtojson(sender_wallet);
+                    String free_balance = sender_wallett.getString("data.Balance.freeBalance");
+                    System.out.println(free_balance);
 
                 }
             }
