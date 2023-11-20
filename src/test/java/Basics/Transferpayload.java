@@ -35,15 +35,15 @@ public class Transferpayload {
              "}";
     }
 
-    public static String Transferpayload(String memberid ,int amount)
+    public static String Transferpayload(String memberid ,int amount,String requestId)
 
     {
         return "{\n" +
                 "    \"amount\": "+amount+",\n" +
                 "    \"isReserve\": false,\n" +
-                "    \"medium\": \"MOBILE\",\n" +
+                "    \"medium\": \"EMAIL\",\n" +
                 "    \"receiverId\": "+memberid+",\n" +
-                "    \"requestId\": \"\"\n" +
+                "    \"requestId\": \""+requestId+"\"\n" +
                 "}";
 
     }
@@ -70,10 +70,10 @@ public static String send_otp(String email)
 {
     return "{\n" +
             "    \"countryCode\":\"+91\",\n" +
-            "    \"deviceToken\":\"\" ,\n" +
+            "    \"deviceToken\":"+null+",\n" +
             "    \"deviceType\":\"WEB\",\n" +
-            "    \"email\":\"sbb1@gmail.com\",\n" +
-            "    \"medium\":\""+email+"\",\n" +
+            "    \"email\":\""+email+"\",\n" +
+            "    \"medium\":\"EMAIL\",\n" +
             "    \"mobileNo\":\"\",\n" +
             "    \"previousMedium\":\"\",\n" +
             "    \"pwaDevice\":\"Linux\",\n" +
@@ -86,7 +86,7 @@ public  static String verify_otp()
 {
     return "{\n" +
             "    \"countryCode\":\"+91\",\n" +
-            "    \"deviceToken\":\"\" ,\n" +
+            "    \"deviceToken\":\""+null+"\" ,\n" +
             "    \"deviceType\":\"WEB\",\n" +
             "    \"medium\":\"EMAIL\",\n" +
             "    \"mobileNo\":\"\",\n" +

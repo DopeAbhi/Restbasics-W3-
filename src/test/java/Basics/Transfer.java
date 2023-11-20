@@ -33,6 +33,7 @@ public class Transfer {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         String transferdata[]=new String[5];
+        String requestId = null;
 
 //Data Reading from Excel
         FileInputStream fis = new FileInputStream("/home/abhay/IdeaProjects/Restbasics-W3-/src/test/java/resources/Superone.xlsx");
@@ -60,8 +61,7 @@ public class Transfer {
                             System.out.println(transferdata[k]);
                             k++;
 
-                        }
-                    else {
+                        } else {
                             transferdata[k] = String.valueOf(value.getNumericCellValue());
                             System.out.println(transferdata[k]);
                             k++;
@@ -70,15 +70,14 @@ public class Transfer {
                     }
 
 
-
-                //Sender Login
+                    //Sender Login
                     ArrayList<String> sender_logindata;
-              sender_logindata= Login.Loginfeature(transferdata[0],transferdata[1]);
+                    sender_logindata = Login.Loginfeature(transferdata[0], transferdata[1]);
                     System.out.println(sender_logindata.get(1));
 
 
                     //Get wallet data
-                    APIResources apiResources=APIResources.valueOf("get_walletdata");
+                    APIResources apiResources = APIResources.valueOf("get_walletdata");
                     String sender_wallet_response = given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
                             .when().get(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200).extract().response().asString();
@@ -87,26 +86,26 @@ public class Transfer {
                     System.out.println(sender_free_balance);
                     //Checking Sender OTP settings
 
-                    apiResources=APIResources.valueOf("user_settings");
-                    String user_settings_response=given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
+                    apiResources = APIResources.valueOf("user_settings");
+                    String user_settings_response = given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
                             .when().get(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200).extract().response().asPrettyString();
                     System.out.println(user_settings_response);
-                    JsonPath user_settings_json= Utils.rawtojson(user_settings_response);
-                   Integer Withdraw_status= user_settings_json.getInt("data.getallsecuritypreferences.WITHDRAW_TRANSFER");
+                    JsonPath user_settings_json = Utils.rawtojson(user_settings_response);
+                    Integer Withdraw_status = user_settings_json.getInt("data.getallsecuritypreferences.WITHDRAW_TRANSFER");
                     System.out.println(Withdraw_status);
 
 
                     //Login receiver
                     ArrayList<String> receiver_logindata;
 
-                     receiver_logindata=Login.Loginfeature(transferdata[2], transferdata[3]);
-                    
+                    receiver_logindata = Login.Loginfeature(transferdata[2], transferdata[3]);
+
 //                   String receiver_referralcode= js4.getString("data.referralCode");
 //                    System.out.println(receiver_token);
 
                     //Search Member
-                    apiResources=APIResources.valueOf("member_search");
+                    apiResources = APIResources.valueOf("member_search");
                     String member_search_response = given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
                             .body(Transferpayload.searchpayload(receiver_logindata.get(1)))
                             .when().post(apiResources.getResource())
@@ -114,55 +113,51 @@ public class Transfer {
                     JsonPath member_search_json = Reuseablemethods.rawtojson(member_search_response);
                     String receiver_memberid = member_search_json.getString("data.members[0].id");
                     System.out.println(receiver_memberid);
-                    if(Withdraw_status.equals(1))
-                    {
-                        //Get Preferecences
-                        apiResources=APIResources.valueOf("get_preferences");
-                        given().spec(requestSpecification()).header("Token",sender_logindata.get(0))
-                                .body(Transferpayload.get_preferences((int)Double.parseDouble(transferdata[4])))
-                                .when().put(apiResources.getResource())
-                                .then().log().all().assertThat().statusCode(200).extract().response().asString();
+
+                    if (Withdraw_status.equals(1)) {
 
                         //Sending OTP
-                        apiResources=APIResources.valueOf("send_otp");
-                        given().spec(requestSpecification()).header("Token",sender_logindata.get(0))
+                        apiResources = APIResources.valueOf("send_otp");
+                        given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
                                 .body(Transferpayload.send_otp(transferdata[0]))
                                 .when().post(apiResources.getResource())
                                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
                         //Verify OTP
 
-                        apiResources=APIResources.valueOf("verify_otp");
-                        given().spec(requestSpecification()).header("Token",sender_logindata.get(0))
+                        apiResources = APIResources.valueOf("verify_otp");
+                        String verify_otp_response = given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
                                 .body(Transferpayload.verify_otp())
                                 .when().patch(apiResources.getResource())
                                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
+                        JsonPath verify_otp_json = Utils.rawtojson(verify_otp_response);
+                        requestId = verify_otp_json.getString("data.requestId");
+
 
                     }
 
 
                     //Transfer
-                    apiResources=APIResources.valueOf("transfer");
-                    given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
-                            .body(Transferpayload.Transferpayload(receiver_memberid, (int)Double.parseDouble(transferdata[4])))
+                    System.out.println(requestId);
+                    apiResources = APIResources.valueOf("transfer");
+                    given().log().all().spec(requestSpecification()).header("Token", sender_logindata.get(0))
+                            .body(Transferpayload.Transferpayload(receiver_memberid,(int) Double.parseDouble(transferdata[4]),requestId))
                             .when().post(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200);
-                    
 
 
                     //Checking Receiver Received Amount
-                    apiResources= APIResources.valueOf("get_walletdata");
+                    apiResources = APIResources.valueOf("get_walletdata");
                     String receiver_wallet_response = given().spec(requestSpecification()).header("Token", receiver_logindata.get(0))
-                           .when().get(apiResources.getResource())
-                           .then().log().all().assertThat().statusCode(200).extract().response().asString();
+                            .when().get(apiResources.getResource())
+                            .then().log().all().assertThat().statusCode(200).extract().response().asString();
                     JsonPath receiver_wallet_json = Reuseablemethods.rawtojson(receiver_wallet_response);
                     String receiver_received_amount = receiver_wallet_json.getString("data.Balance.freeBalance");
                     System.out.println(receiver_received_amount);
 
-                    
 
                     //Checking Balance is deducted from sender
 
-                   apiResources=APIResources.valueOf("get_walletdata");
+                    apiResources = APIResources.valueOf("get_walletdata");
                     String sender_wallet = given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
                             .when().get(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200).extract().response().asString();
