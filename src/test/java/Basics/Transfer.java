@@ -1,78 +1,38 @@
 package Basics;
 
-import io.restassured.RestAssured;
+import Payload.Transferpayload;
 import io.restassured.path.json.JsonPath;
-import junit.framework.Assert;
-import net.openhft.chronicle.core.values.StringValue;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.stringtemplate.v4.ST;
 import resources.APIResources;
 import resources.Utils;
 
-import javax.swing.text.html.parser.Parser;
-
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Scanner;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.requestSpecification;
-import static org.hamcrest.Matchers.equalTo;
 import static resources.Utils.requestSpecification;
+import Payload.Transferpayload;
 
 public class Transfer {
 
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        String transferdata[]=new String[5];
+
         String requestId = null;
 
 //Data Reading from Excel
-        FileInputStream fis = new FileInputStream("/home/abhay/IdeaProjects/Restbasics-W3-/src/test/java/resources/Superone.xlsx");
-        XSSFWorkbook workbook = new XSSFWorkbook(fis);
-        int sheets = workbook.getNumberOfSheets();
-        for (int i = 0; i < sheets; i++) {
-
-            if (workbook.getSheetName(i).equalsIgnoreCase("Transfer")) {
-                XSSFSheet sheet = workbook.getSheetAt(i);
-
-
-                Iterator<Row> rows = sheet.iterator();// sheet is collection of rows
-                rows.next();
-                while (rows.hasNext()) {
-                    Row row = rows.next();
-
-                    Iterator<Cell> ce = row.cellIterator();
-                    int k = 0;
-                    int column = 0;
-
-                    while (ce.hasNext()) {
-                        Cell value = ce.next();
-                        if (k < 4) {
-                            transferdata[k] = value.getStringCellValue();
-                            System.out.println(transferdata[k]);
-                            k++;
-
-                        } else {
-                            transferdata[k] = String.valueOf(value.getNumericCellValue());
-                            System.out.println(transferdata[k]);
-                            k++;
-
-                        }
-                    }
+       ArrayList<String> transferdata= Utils.excelAccess("Transfer");
 
 
                     //Sender Login
                     ArrayList<String> sender_logindata;
-                    sender_logindata = Login.Loginfeature(transferdata[0], transferdata[1]);
+                    sender_logindata = Login.Loginfeature(transferdata.get(0), transferdata.get(1));
                     System.out.println(sender_logindata.get(1));
 
 
@@ -99,7 +59,7 @@ public class Transfer {
                     //Login receiver
                     ArrayList<String> receiver_logindata;
 
-                    receiver_logindata = Login.Loginfeature(transferdata[2], transferdata[3]);
+                    receiver_logindata = Login.Loginfeature(transferdata.get(2), transferdata.get(3));
 
 //                   String receiver_referralcode= js4.getString("data.referralCode");
 //                    System.out.println(receiver_token);
@@ -119,7 +79,7 @@ public class Transfer {
                         //Sending OTP
                         apiResources = APIResources.valueOf("send_otp");
                         given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
-                                .body(Transferpayload.send_otp(transferdata[0]))
+                                .body(Transferpayload.send_otp(transferdata.get(0)))
                                 .when().post(apiResources.getResource())
                                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
                         //Verify OTP
@@ -140,7 +100,7 @@ public class Transfer {
                     System.out.println(requestId);
                     apiResources = APIResources.valueOf("transfer");
                     given().log().all().spec(requestSpecification()).header("Token", sender_logindata.get(0))
-                            .body(Transferpayload.Transferpayload(receiver_memberid,(int) Double.parseDouble(transferdata[4]),requestId))
+                            .body(Transferpayload.Transferpayload(receiver_memberid,(int) Double.parseDouble(transferdata.get(4)),requestId))
                             .when().post(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200);
 
@@ -168,4 +128,3 @@ public class Transfer {
                 }
             }
 
-        }}}

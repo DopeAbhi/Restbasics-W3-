@@ -1,5 +1,6 @@
 package Basics;
 
+import Payload.usertreepayload;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.path.json.JsonPath;
@@ -12,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
+import Payload.usertreepayload;
 
 import static io.restassured.RestAssured.given;
 

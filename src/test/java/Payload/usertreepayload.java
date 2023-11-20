@@ -1,4 +1,4 @@
-package Basics;
+package Payload;
 
 import Pojo.*;
 

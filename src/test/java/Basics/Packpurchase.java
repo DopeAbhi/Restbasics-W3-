@@ -1,19 +1,17 @@
 package Basics;
 
 
+import Payload.usertreepayload;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 
-import java.util.Scanner;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.Iterator;
 
 import static io.restassured.RestAssured.given;

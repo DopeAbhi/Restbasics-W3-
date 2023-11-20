@@ -6,11 +6,17 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.specification.RequestSpecification;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Properties;
 
 public class Utils {
@@ -29,7 +35,7 @@ public class Utils {
     {
 
         if (req==null) {
-            PrintStream log = new PrintStream(new FileOutputStream("/home/abhay/IdeaProjects/Restbasics-W3-/src/test/java/Logs/logging.txt"));
+            PrintStream log = new PrintStream(new FileOutputStream("/Users/abhayverma/IdeaProjects/BasicsofRest/src/test/java/Logs/logging.txt"));
             req = new RequestSpecBuilder().setBaseUri(getGlobalValue("RestAssured.baseURIdev3"))
                     .addHeader("Content-Type", "application/json")
                     .addHeader("device-Type", "WEB")
@@ -45,5 +51,49 @@ public class Utils {
         JsonPath js1=new JsonPath(response);
         return js1;
 
+    }
+
+    public static ArrayList<String> excelAccess(String accesssheet) throws IOException {
+
+        ArrayList<String> transferdata = new ArrayList<String>();
+        FileInputStream fis = new FileInputStream("/Users/abhayverma/IdeaProjects/BasicsofRest/src/test/java/resources/Superone.xlsx");
+        XSSFWorkbook workbook = new XSSFWorkbook(fis);
+        int sheets = workbook.getNumberOfSheets();
+        for (int i = 0; i < sheets; i++) {
+
+            if (workbook.getSheetName(i).equalsIgnoreCase(accesssheet)) {
+                XSSFSheet sheet = workbook.getSheetAt(i);
+
+
+                Iterator<Row> rows = sheet.iterator();// sheet is collection of rows
+                rows.next();
+                while (rows.hasNext()) {
+                    Row row = rows.next();
+
+                    Iterator<Cell> ce = row.cellIterator();
+                    int k = 0;
+                    int column = 0;
+
+                    while (ce.hasNext()) {
+                        Cell value = ce.next();
+
+                        if (k < 4) {
+                            transferdata.add(k, value.getStringCellValue());
+                            System.out.println(transferdata.get(k));
+                            k++;
+
+                        } else {
+                            transferdata.add(k, String.valueOf(value.getNumericCellValue()));
+                            System.out.println(transferdata.get(k));
+                            k++;
+
+                        }
+                    }
+
+                }
+
+            }
+        }
+        return transferdata;
     }
 }
