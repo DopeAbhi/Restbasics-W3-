@@ -15,9 +15,12 @@ public enum APIResources {
     set_firstname_lastname("/writer/v3/user/100706/updateUserInfo"),
     set_avatar("/writer/user/update-avatar"),
     get_walletdata("/reader/members/get/walletdata"),
-    checking_settings("/reader/user/104947/setting"),
+    user_settings("/reader/user/105049/setting"),
     member_search("/reader/member/searchmemberbyreferralcode"),
-    transfer("/writer/v3/user/100623/transfer");
+    transfer("/writer/v3/user/100623/transfer"),
+    send_otp("/writer/sendOtpFor2FA"),
+    verify_otp("/writer/verifyFor2FA"),
+    get_preferences("/writer/getPreferences");
 
     private String resources;
 

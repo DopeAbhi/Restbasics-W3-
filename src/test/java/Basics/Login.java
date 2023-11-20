@@ -23,8 +23,8 @@ public class Login {
                 when().patch(apiResources.getResource()).
                 then().log().all().assertThat().statusCode(200).extract().response().asString();
         JsonPath login_json = Utils.rawtojson(login_response);
-         logindata.add( 1,login_json.getString("data.token"));
-        logindata.add(  2,login_json.getString("data.referralCode"));
+         logindata.add( 0,login_json.getString("data.token"));
+        logindata.add(  1,login_json.getString("data.referralCode"));
         return logindata;
     }
     public static void main(String[] args) throws IOException {

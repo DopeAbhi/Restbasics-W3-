@@ -21,7 +21,7 @@ public class Player_details {
 
 
         // Load an existing Excel file
-          FileInputStream fis = new FileInputStream("/home/abhay/Restbasics-W3-/src/test/java/resources/Superone2.xlsx");
+          FileInputStream fis = new FileInputStream("/src/test/java/resources/Superone2.xlsx");
         //FileInputStream fis = new FileInputStream("/Users/abhayverma/IdeaProjects/BasicsofRest/src/test/java/resources/Superone2.xlsx"); //for mac
         XSSFWorkbook workbook = new XSSFWorkbook(fis);
 

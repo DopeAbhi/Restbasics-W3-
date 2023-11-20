@@ -57,4 +57,44 @@ public class Transferpayload {
                 "\n" +
                 "}";
     }
+    public static String get_preferences(int amount)
+    {
+return "{\n" +
+        "    \"amount\":"+amount+",\n" +
+        "    \"isReserve\":false,\n" +
+        "    \"sectionType\":\"WITHDRAW_TRANSFER\",\n" +
+        "    \"subSectionType\":\"TRANSFER\"\n" +
+        "}";
+    }
+public static String send_otp(String email)
+{
+    return "{\n" +
+            "    \"countryCode\":\"+91\",\n" +
+            "    \"deviceToken\":\"\" ,\n" +
+            "    \"deviceType\":\"WEB\",\n" +
+            "    \"email\":\"sbb1@gmail.com\",\n" +
+            "    \"medium\":\""+email+"\",\n" +
+            "    \"mobileNo\":\"\",\n" +
+            "    \"previousMedium\":\"\",\n" +
+            "    \"pwaDevice\":\"Linux\",\n" +
+            "    \"sectionType\":\"TRANSFER\"\n" +
+            "    \n" +
+            "\n" +
+            "}";
+}
+public  static String verify_otp()
+{
+    return "{\n" +
+            "    \"countryCode\":\"+91\",\n" +
+            "    \"deviceToken\":\"\" ,\n" +
+            "    \"deviceType\":\"WEB\",\n" +
+            "    \"medium\":\"EMAIL\",\n" +
+            "    \"mobileNo\":\"\",\n" +
+            "    \"otp\":\"123456\",\n" +
+            "    \"pwaDevice\":\"Linux\",\n" +
+            "    \"sectionType\":\"TRANSFER\"\n" +
+            "    \n" +
+            "\n" +
+            "}";
+}
 }

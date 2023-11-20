@@ -8,7 +8,9 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.stringtemplate.v4.ST;
 import resources.APIResources;
+import resources.Utils;
 
 import javax.swing.text.html.parser.Parser;
 
@@ -77,12 +79,23 @@ public class Transfer {
 
                     //Get wallet data
                     APIResources apiResources=APIResources.valueOf("get_walletdata");
-                    String sender_wallet_response = given().spec(requestSpecification()).header("Token", sender_logindata.get(1))
+                    String sender_wallet_response = given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
                             .when().get(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200).extract().response().asString();
                     JsonPath sender_wallet_json = Reuseablemethods.rawtojson(sender_wallet_response);
                     String sender_free_balance = sender_wallet_json.getString("data.Balance.freeBalance");
                     System.out.println(sender_free_balance);
+                    //Checking Sender OTP settings
+
+                    apiResources=APIResources.valueOf("user_settings");
+                    String user_settings_response=given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
+                            .when().get(apiResources.getResource())
+                            .then().log().all().assertThat().statusCode(200).extract().response().asPrettyString();
+                    System.out.println(user_settings_response);
+                    JsonPath user_settings_json= Utils.rawtojson(user_settings_response);
+                   Integer Withdraw_status= user_settings_json.getInt("data.getallsecuritypreferences.WITHDRAW_TRANSFER");
+                    System.out.println(Withdraw_status);
+
 
                     //Login receiver
                     ArrayList<String> receiver_logindata;
@@ -94,18 +107,42 @@ public class Transfer {
 
                     //Search Member
                     apiResources=APIResources.valueOf("member_search");
-                    String member_search_response = given().spec(requestSpecification()).header("Token", sender_logindata.get(1))
-                            .body(Transferpayload.searchpayload(receiver_logindata.get(2)))
+                    String member_search_response = given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
+                            .body(Transferpayload.searchpayload(receiver_logindata.get(1)))
                             .when().post(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200).extract().response().asString();
                     JsonPath member_search_json = Reuseablemethods.rawtojson(member_search_response);
                     String receiver_memberid = member_search_json.getString("data.members[0].id");
                     System.out.println(receiver_memberid);
+                    if(Withdraw_status.equals(1))
+                    {
+                        //Get Preferecences
+                        apiResources=APIResources.valueOf("get_preferences");
+                        given().spec(requestSpecification()).header("Token",sender_logindata.get(0))
+                                .body(Transferpayload.get_preferences((int)Double.parseDouble(transferdata[4])))
+                                .when().put(apiResources.getResource())
+                                .then().log().all().assertThat().statusCode(200).extract().response().asString();
+
+                        //Sending OTP
+                        apiResources=APIResources.valueOf("send_otp");
+                        given().spec(requestSpecification()).header("Token",sender_logindata.get(0))
+                                .body(Transferpayload.send_otp(transferdata[0]))
+                                .when().post(apiResources.getResource())
+                                .then().log().all().assertThat().statusCode(200).extract().response().asString();
+                        //Verify OTP
+
+                        apiResources=APIResources.valueOf("verify_otp");
+                        given().spec(requestSpecification()).header("Token",sender_logindata.get(0))
+                                .body(Transferpayload.verify_otp())
+                                .when().patch(apiResources.getResource())
+                                .then().log().all().assertThat().statusCode(200).extract().response().asString();
+
+                    }
 
 
                     //Transfer
                     apiResources=APIResources.valueOf("transfer");
-                    given().spec(requestSpecification()).header("Token", sender_logindata.get(1))
+                    given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
                             .body(Transferpayload.Transferpayload(receiver_memberid, (int)Double.parseDouble(transferdata[4])))
                             .when().post(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200);
@@ -114,7 +151,7 @@ public class Transfer {
 
                     //Checking Receiver Received Amount
                     apiResources= APIResources.valueOf("get_walletdata");
-                    String receiver_wallet_response = given().spec(requestSpecification()).header("Token", receiver_logindata.get(1))
+                    String receiver_wallet_response = given().spec(requestSpecification()).header("Token", receiver_logindata.get(0))
                            .when().get(apiResources.getResource())
                            .then().log().all().assertThat().statusCode(200).extract().response().asString();
                     JsonPath receiver_wallet_json = Reuseablemethods.rawtojson(receiver_wallet_response);
@@ -126,7 +163,7 @@ public class Transfer {
                     //Checking Balance is deducted from sender
 
                    apiResources=APIResources.valueOf("get_walletdata");
-                    String sender_wallet = given().spec(requestSpecification()).header("Token", sender_logindata.get(1))
+                    String sender_wallet = given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
                             .when().get(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200).extract().response().asString();
                     JsonPath sender_wallett = Reuseablemethods.rawtojson(sender_wallet);
