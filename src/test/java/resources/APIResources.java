@@ -20,7 +20,8 @@ public enum APIResources {
     transfer("/writer/v3/user/105093/transfer"),
     send_otp("/writer/sendOtpFor2FA"),
     verify_otp("/writer/verifyFor2FA"),
-    get_preferences("/writer/getPreferences");
+    get_preferences("/writer/getPreferences"),
+    pack_purchase("/writer/member/package/103138");
 
     private String resources;
 

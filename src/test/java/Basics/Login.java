@@ -17,12 +17,12 @@ public class Login {
 
         APIResources apiResources = APIResources.valueOf("user_status_check");
         given().spec(Utils.requestSpecification()).body(usertreepayload.userstatuspayload(Email))
-                .when().post(apiResources.getResource()).then().log().all().assertThat().statusCode(200);
+                .when().post(apiResources.getResource()).then().assertThat().statusCode(200);
 
         apiResources = APIResources.valueOf("login");
         String login_response = given().spec(Utils.requestSpecification()).body(usertreepayload.loginpayload(Email, Password)).
                 when().patch(apiResources.getResource()).
-                then().log().all().assertThat().statusCode(200).extract().response().asString();
+                then().assertThat().statusCode(200).extract().response().asString();
         JsonPath login_json = Utils.rawtojson(login_response);
          logindata.add( 0,login_json.getString("data.token"));
         logindata.add(  1,login_json.getString("data.referralCode"));

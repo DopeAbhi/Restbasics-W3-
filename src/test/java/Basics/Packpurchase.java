@@ -9,88 +9,44 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import resources.APIResources;
+import resources.Utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.requestSpecification;
+import static resources.Utils.requestSpecification;
 
 
-    public class Packpurchase {
+public class Packpurchase {
 
 
         public static void main(String[] args) throws IOException {
 
 
-            String[] userdata = new String[4];
-            FileInputStream fis = new FileInputStream("/home/abhay/IdeaProjects/Restbasics-W3-/src/test/java/resources/Superone.xlsx");
-            XSSFWorkbook workbook = new XSSFWorkbook(fis);
-            int sheets = workbook.getNumberOfSheets();
+            ArrayList<String> userdata = new ArrayList<String>();
+       userdata=     Utils.excelAccess("Packpurchase");
+       ArrayList<String>sender_login_data=new ArrayList<String>();
 
-            RestAssured.baseURI = "https://quickdev3.super.one";
-
-            //Login
-            for (int i = 0; i < sheets; i++) {
-
-                if (workbook.getSheetName(i).equalsIgnoreCase("Packpurchase")) {
-                    XSSFSheet sheet = workbook.getSheetAt(i);
-
-                    Iterator<Row> rows = sheet.iterator();// sheet is collection of rows
-                    rows.next();
-
-                    while (rows.hasNext()) {
-                        Row row = rows.next();
+       //User Login
+       sender_login_data=Login.Loginfeature(userdata.get(0),userdata.get(1));
+            //Pack Purchase
+            APIResources apiResources= APIResources.valueOf("pack_purchase");
+            String purchaseresp = given().spec(requestSpecification()).header("token", sender_login_data.get(0))
+                    .body(usertreepayload.pack_purchase_payload((int) Double.parseDouble(userdata.get(2))))
+                    .when().patch(apiResources.getResource()).
+                    then().assertThat().statusCode(200).extract().response().asString();
 
 
-                        Iterator<Cell> ce = row.cellIterator();
-                        int k = 0;
-                        while (ce.hasNext()) {
-                            Cell value = ce.next();
-                            if (k < 2) {
-
-                                userdata[k] = value.getStringCellValue();
-
-                                System.out.println(userdata[k]);
-                                k++;
-                            } else {
-                                userdata[k] = String.valueOf(value.getNumericCellValue());
-                                System.out.println(userdata[k]);
-                                k++;
-                            }
-
-
-                        }
-
-                        //Intiate Login
-                        given().header("device-type", "WEB")
-                                .body(usertreepayload.intiateloginpayload(userdata[0]))
-                                .when().patch("/writer/v2/user/email/initiatelogin")
-                                .then().log().all().assertThat().statusCode(200);
-                        //Login
-
-
-                        String loginresp = given().header("device-type", "WEB")
-                                .body(usertreepayload.loginpayload(userdata[0], userdata[1]))
-                                .when().patch("/writer/user/email/login")
-                                .then().assertThat().statusCode(200).extract().response().asString();
-                        System.out.println(loginresp);
-                        JsonPath loginjson = Reuseablemethods.rawtojson(loginresp);
-                        String token = loginjson.getString("data.token");
-                        System.out.println(token);
-
-                        //Pack Purchase
-                        String purchaseresp = given().header("token", token).header("device-type", "WEB")
-                                .body(usertreepayload.pack_purchase_payload(
-                                        (int) Double.parseDouble(userdata[2])))
-                                .when().patch("/writer/member/package/103138").
-                                then().log().all().assertThat().statusCode(200).extract().response().asString();
-
-
-                    }
-                }
-
-
-            }
         }
-    }
+}
+
+
+
+
+
+
