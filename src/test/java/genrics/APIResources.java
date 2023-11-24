@@ -1,4 +1,4 @@
-package resources;
+package genrics;
 
 public enum APIResources {
 

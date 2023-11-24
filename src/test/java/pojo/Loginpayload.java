@@ -1,4 +1,4 @@
-package Pojo;
+package pojo;
 
 public class Loginpayload {
 private String deviceToken;

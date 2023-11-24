@@ -2,14 +2,15 @@ package Basics;
 
 import payload.Transferpayload;
 import io.restassured.path.json.JsonPath;
-import resources.APIResources;
-import resources.Utils;
+
+import genrics.APIResources;
+import genrics.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import static io.restassured.RestAssured.given;
-import static resources.Utils.requestSpecification;
+import static genrics.Utils.requestSpecification;
 
 public class Transfer {
 
@@ -34,7 +35,7 @@ public class Transfer {
                     String sender_wallet_response = given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
                             .when().get(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                    JsonPath sender_wallet_json = Reuseablemethods.rawtojson(sender_wallet_response);
+                    JsonPath sender_wallet_json = Utils.rawtojson(sender_wallet_response);
                     String sender_free_balance = sender_wallet_json.getString("data.Balance.freeBalance");
                     System.out.println(sender_free_balance);
                     //Checking Sender OTP settings
@@ -63,7 +64,7 @@ public class Transfer {
                             .body(Transferpayload.searchpayload(receiver_logindata.get(1)))
                             .when().post(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                    JsonPath member_search_json = Reuseablemethods.rawtojson(member_search_response);
+                    JsonPath member_search_json = Utils.rawtojson(member_search_response);
                     String receiver_memberid = member_search_json.getString("data.members[0].id");
                     System.out.println(receiver_memberid);
 
@@ -103,7 +104,7 @@ public class Transfer {
                     String receiver_wallet_response = given().spec(requestSpecification()).header("Token", receiver_logindata.get(0))
                             .when().get(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                    JsonPath receiver_wallet_json = Reuseablemethods.rawtojson(receiver_wallet_response);
+                    JsonPath receiver_wallet_json = Utils.rawtojson(receiver_wallet_response);
                     String receiver_received_amount = receiver_wallet_json.getString("data.Balance.freeBalance");
                     System.out.println(receiver_received_amount);
 
@@ -114,7 +115,7 @@ public class Transfer {
                     String sender_wallet = given().spec(requestSpecification()).header("Token", sender_logindata.get(0))
                             .when().get(apiResources.getResource())
                             .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                    JsonPath sender_wallett = Reuseablemethods.rawtojson(sender_wallet);
+                    JsonPath sender_wallett = Utils.rawtojson(sender_wallet);
                     String free_balance = sender_wallett.getString("data.Balance.freeBalance");
                     System.out.println(free_balance);
 

@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import genrics.Utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -83,7 +84,7 @@ public class Usertree {
                                     .body(usertreepayload.loginpayload(Treedata[0], Treedata[1]))
                                     .when().patch("/writer/user/email/login")
                                     .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                            JsonPath loginjson = Reuseablemethods.rawtojson(loginresp);
+                            JsonPath loginjson = Utils.rawtojson(loginresp);
                             referralLink = loginjson.getString("data.referralCode");
 
                             System.out.println(referralLink);
@@ -96,7 +97,7 @@ public class Usertree {
                             String verifyresponse = given().header("Bypass-W3villa-Areyxukcyb", true).queryParam("password", "711b525c69e8b0edc6221518b8ff878f")
                                     .when().get("/reader/getVerificationHistory")
                                     .then().statusCode(200).extract().response().asString();
-                            JsonPath js1 = Reuseablemethods.rawtojson(verifyresponse);
+                            JsonPath js1 = Utils.rawtojson(verifyresponse);
                             String hash = js1.getString("data[0].verificationHash");
                             System.out.println(hash);
                             String vertoken = hash.substring(67, hash.length());
@@ -114,7 +115,7 @@ public class Usertree {
                             String verificationresponse = given().header("Bypass-W3villa-Areyxukcyb", true).header("device-type", "WEB").queryParam("email", Treedata[0])
                                     .when().get("/reader/user/checkVerificationStatus")
                                     .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                            JsonPath js2 = Reuseablemethods.rawtojson(verificationresponse);
+                            JsonPath js2 = Utils.rawtojson(verificationresponse);
                             String token = js2.getString("data.token");
                             System.out.println(token);
 
@@ -140,7 +141,7 @@ public class Usertree {
                             String flresponse = given().spec(req).body(usertreepayload.namepayload(Treedata[3]))
                                     .when().put("/writer/v3/user/100706/updateUserInfo")
                                     .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                            JsonPath js3 = Reuseablemethods.rawtojson(flresponse);
+                            JsonPath js3 = Utils.rawtojson(flresponse);
 
                             String imageurl = js3.getString("data.imageUrl");
                             int userid = js3.getInt("data.id");
@@ -152,7 +153,7 @@ public class Usertree {
                             avatarresp = given().spec(req).body(usertreepayload.avatarpayload(imageurl, userid))
                                     .when().post("/writer/user/update-avatar")
                                     .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                            JsonPath avatarjson = Reuseablemethods.rawtojson(avatarresp);
+                            JsonPath avatarjson = Utils.rawtojson(avatarresp);
                             String rawreferral = avatarjson.getString("data.referralLink");
                             referralLink = rawreferral.substring((rawreferral.length()) - 10, rawreferral.length());
                             System.out.println(referralLink);
@@ -181,7 +182,7 @@ public class Usertree {
                         String treeverifyresponse = given().queryParam("password", "711b525c69e8b0edc6221518b8ff878f")
                                 .when().get("/reader/getVerificationHistory")
                                 .then().statusCode(200).extract().response().asString();
-                        JsonPath js5 = Reuseablemethods.rawtojson(treeverifyresponse);
+                        JsonPath js5 = Utils.rawtojson(treeverifyresponse);
                         String treehash = js5.getString("data[0].verificationHash");
                         System.out.println(treehash);
                         String treevertoken = treehash.substring(67, treehash.length());
@@ -200,7 +201,7 @@ public class Usertree {
                         String treeverificationresponse = given().header("device-type", "WEB").queryParam("email", Treedata[0])
                                 .when().get("/reader/user/checkVerificationStatus")
                                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                        JsonPath js6 = Reuseablemethods.rawtojson(treeverificationresponse);
+                        JsonPath js6 = Utils.rawtojson(treeverificationresponse);
                         String treetoken = js6.getString("data.token");
                         System.out.println(treetoken);
 
@@ -229,7 +230,7 @@ public class Usertree {
                         String treeflresponse = given().spec(treereq).body(usertreepayload.namepayload(Treedata[3]))
                                 .when().put("/writer/v3/user/100706/updateUserInfo")
                                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                        JsonPath js7 = Reuseablemethods.rawtojson(treeflresponse);
+                        JsonPath js7 = Utils.rawtojson(treeflresponse);
                         Integer treeid = js7.getInt("data.id");
                         String treeimageurl = js7.getString("data.imageUrl");
                         System.out.println(treeid);
@@ -241,7 +242,7 @@ public class Usertree {
                                 .body(usertreepayload.avatarpayload(treeimageurl, treeid))
                                 .when().post("/writer/user/update-avatar")
                                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
-                        JsonPath treeavatarjson = Reuseablemethods.rawtojson(treeavatarresp);
+                        JsonPath treeavatarjson = Utils.rawtojson(treeavatarresp);
                         String rawreferral = treeavatarjson.getString("data.referralLink");
                         referralLink = rawreferral.substring((rawreferral.length()) - 10, rawreferral.length());
                         System.out.println(referralLink);

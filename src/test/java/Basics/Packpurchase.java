@@ -3,14 +3,14 @@ package Basics;
 
 import payload.usertreepayload;
 
-import resources.APIResources;
-import resources.Utils;
+import genrics.APIResources;
+import genrics.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import static io.restassured.RestAssured.given;
-import static resources.Utils.requestSpecification;
+import static genrics.Utils.requestSpecification;
 
 
 public class Packpurchase {

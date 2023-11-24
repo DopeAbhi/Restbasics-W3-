@@ -4,7 +4,8 @@ import static io.restassured.RestAssured.given;
 
 import payload.usertreepayload;
 import io.restassured.path.json.JsonPath;
-import resources.*;
+import genrics.APIResources;
+import genrics.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;

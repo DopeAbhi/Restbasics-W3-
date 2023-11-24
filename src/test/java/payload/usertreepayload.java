@@ -1,6 +1,7 @@
 package payload;
 
-import Pojo.*;
+
+import pojo.Loginpayload;
 
 public class usertreepayload {
 
@@ -28,7 +29,7 @@ public class usertreepayload {
                 "}";
     }
 
-    public static Loginpayload loginpayload(String email,String password)
+    public static Loginpayload loginpayload(String email, String password)
     {
         Loginpayload loginpayload=new Loginpayload();
         loginpayload.setDeviceToken("");

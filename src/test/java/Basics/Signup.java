@@ -2,15 +2,15 @@ package Basics;
 
 
 import io.restassured.path.json.JsonPath;
-import resources.APIResources;
-import resources.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import payload.*;
-import resources.*;
+import genrics.APIResources;
+import genrics.Utils;
+
 import static io.restassured.RestAssured.given;
-import static resources.Utils.requestSpecification;
+import static genrics.Utils.requestSpecification;
 
 public class Signup {
 
@@ -48,7 +48,7 @@ public class Signup {
         String verification_check_response = given().spec(requestSpecification()).queryParam("email", Treedata.get(0))
                 .when().get(apiResources.getResource())
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
-        JsonPath verification_check_json = Reuseablemethods.rawtojson(verification_check_response);
+        JsonPath verification_check_json = Utils.rawtojson(verification_check_response);
         String token = verification_check_json.getString("data.token");
         System.out.println(token);
 
@@ -81,7 +81,7 @@ public class Signup {
                 .body(usertreepayload.namepayload(Treedata.get(3)))
                 .when().put(apiResources.getResource())
                 .then().assertThat().statusCode(200).extract().response().asString();
-        JsonPath fljson = Reuseablemethods.rawtojson(flresponse);
+        JsonPath fljson = Utils.rawtojson(flresponse);
         String imageurl = fljson.getString("data.imageUrl");
         int userid = fljson.getInt("data.id");
 
