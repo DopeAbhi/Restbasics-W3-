@@ -1,6 +1,6 @@
 package Basics;
 
-import Payload.usertreepayload;
+import payload.usertreepayload;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.path.json.JsonPath;

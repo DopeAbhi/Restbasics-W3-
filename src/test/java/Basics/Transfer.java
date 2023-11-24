@@ -1,22 +1,15 @@
 package Basics;
 
-import Payload.Transferpayload;
+import payload.Transferpayload;
 import io.restassured.path.json.JsonPath;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import resources.APIResources;
 import resources.Utils;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import static io.restassured.RestAssured.given;
 import static resources.Utils.requestSpecification;
-import Payload.Transferpayload;
 
 public class Transfer {
 

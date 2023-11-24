@@ -2,7 +2,7 @@ package Basics;
 
 import static io.restassured.RestAssured.given;
 
-import Payload.usertreepayload;
+import payload.usertreepayload;
 import io.restassured.path.json.JsonPath;
 import resources.*;
 

@@ -16,8 +16,188 @@ Body:
     "countryName": "India",
     "deviceToken": "",
     "deviceType": "WEB",
-    "email": "null",
+    "email": "SBB99@gmail.com",
     "lang": "en",
     "referenceId": "",
     "subscribeMarketing": true
+}
+HTTP/1.1 200 OK
+Date: Wed, 22 Nov 2023 05:04:48 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Access-Control-Allow-Origin: undefined
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT,DELETE,PATCH
+Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, content-type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, Token, Device-Type, Bypass-W3villa-areyxukcyb, Uuid
+ETag: W/"6a-V41JnFiyZDW9EoQJRrTteBWp4Eo"
+Set-Cookie: sails.sid=s%3AvplnPfylUWiN99WORpuGEDlzIHw6ceHk.BChlYCvHcply7pbzUQbAsMpYJqEj5tJYV%2BT5%2BNj7feQ; Path=/; HttpOnly
+CF-Cache-Status: DYNAMIC
+Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=Exi%2B1zczOD%2FZ1El0NAo%2B5ZJaEZ7ctbl6fzpf2XoRt56nuyg5%2FUsi0GhE8SrS77y6WjbCCxb37x2OlTAr2s4sAXxl37hdMegwM983rgHKkyUI3NmBACkkutUI9%2Bxl8KU1aq6zhSny"}],"group":"cf-nel","max_age":604800}
+NEL: {"success_fraction":0,"report_to":"cf-nel","max_age":604800}
+Server: cloudflare
+CF-RAY: 829ea2396f173de8-SIN
+Content-Encoding: gzip
+alt-svc: h3=":443"; ma=86400
+
+{
+    "message": "User found.",
+    "success": true,
+    "display": false,
+    "data": {
+        "islogin": true
+    }
+}
+Request method:	PATCH
+Request URI:	https://quickdev3.super.one/writer/user/email/login
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		device-Type=WEB
+				Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "deviceToken": "",
+    "deviceType": "WEB",
+    "email": "SBB99@gmail.com",
+    "password": "Test@123",
+    "recaptchaToken": ""
+}
+HTTP/1.1 200 OK
+Date: Wed, 22 Nov 2023 05:04:50 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Access-Control-Allow-Origin: undefined
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT,DELETE,PATCH
+Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, content-type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, Token, Device-Type, Bypass-W3villa-areyxukcyb, Uuid
+ETag: W/"3fc-FzEeTSwYOkAOeAye1KbE4gEAg7Q"
+Set-Cookie: sails.sid=s%3AA185ApNK3pI_U6RXz5d6HWC0licfB31D.IHbeoY4Li7bLIPcNyoXbjjNyl2prky8OXalXbj1%2Fn24; Path=/; HttpOnly
+CF-Cache-Status: DYNAMIC
+Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=bPNvunbQeShqI3GNqQ8poKd81wwR6juDl7AOf8Dx%2BvPF%2FpO0RgJRiKWaVV28v6rkXhCFjvKfBNWC7FgXT5M86Ier0AIFuvM04Au8xtKa2wVWy7Vl9o8KZH0vX58FzcaimZ%2FfIfZc"}],"group":"cf-nel","max_age":604800}
+NEL: {"success_fraction":0,"report_to":"cf-nel","max_age":604800}
+Server: cloudflare
+CF-RAY: 829ea24318ed9fe6-SIN
+Content-Encoding: gzip
+alt-svc: h3=":443"; ma=86400
+
+{
+    "message": "Logged in with email.",
+    "success": true,
+    "display": false,
+    "data": {
+        "id": 105134,
+        "email": "sbb99@gmail.com",
+        "mobileNo": null,
+        "firstName": "SBB99",
+        "lastName": "test",
+        "imageUrl": "https://d2sve40ue2b0nm.cloudfront.net/avatar/4c41031d-2b19-4480-834e-2ff5ee6ffc6d.webp",
+        "countryName": "India",
+        "countryFlagImage": null,
+        "mobileNoVerified": false,
+        "emailVerified": true,
+        "countryCode": "+91",
+        "socialDone": false,
+        "nextAction": "NONE",
+        "member": 120686,
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwNTEzNCwiaWF0IjoxNzAwNjI5NDkwLCJleHAiOjE3MDMyMjE0OTB9.XFJiisyc5-jlXrUjJ-o5O2E3JOoNc3LR0dfWXh9s21U",
+        "memberType": "GOLD",
+        "isPasscodeSet": false,
+        "passwordSet": true,
+        "userName": "SBB99",
+        "referralCode": "LDHT5ZPRr2",
+        "referralLink": "https://dw99y.app.link/LDHT5ZPRr2",
+        "updateReferral": true,
+        "isNewUser": false,
+        "appLang": "en",
+        "gameLang": "en",
+        "lastLogout": "GAME"
+    }
+}
+Request method:	PATCH
+Request URI:	https://quickdev3.super.one/writer/member/package/103138
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		device-Type=WEB
+				token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwNTEzNCwiaWF0IjoxNzAwNjI5NDkwLCJleHAiOjE3MDMyMjE0OTB9.XFJiisyc5-jlXrUjJ-o5O2E3JOoNc3LR0dfWXh9s21U
+				Accept=*/*
+				Content-Type=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:
+{
+    "isStore": true,
+    "isUpgrade": false,
+    "packagePaymentType": "CASH",
+    "packageType": "AFFILIATE",
+    "packageTypeId": 4,
+    "purchaseType": "CASH",
+    "quantity": 1,
+    "reserve": true
+}
+HTTP/1.1 200 OK
+Date: Wed, 22 Nov 2023 05:04:52 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Access-Control-Allow-Origin: undefined
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT,DELETE,PATCH
+Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, content-type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, Token, Device-Type, Bypass-W3villa-areyxukcyb, Uuid
+ETag: W/"3da-ZHs/JggbnUvrH6sz3T62qKWOdq8"
+Set-Cookie: sails.sid=s%3ACEP4gOStZeoOmzJR0pAXkKAroUTBRgZU.N0hel5hDi5ArcRLTrsVFi8OldIvXxOJTUYeQyWrxL%2BY; Path=/; HttpOnly
+CF-Cache-Status: DYNAMIC
+Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=5qiR1MnjajOTHENDVh%2F1V%2Bsl7Ir4YCBE40KNhOXDm%2F0VK6Qh0mTmDdxE1E38CmXSk1u8C4YTzFfiBKqrDCTPv6z7xSF6Eh3jwMJRLbD4cGTMQffE8a56GQ4dtizdBBMx9nRqR2a4"}],"group":"cf-nel","max_age":604800}
+NEL: {"success_fraction":0,"report_to":"cf-nel","max_age":604800}
+Server: cloudflare
+CF-RAY: 829ea2512be5a035-SIN
+Content-Encoding: gzip
+alt-svc: h3=":443"; ma=86400
+
+{
+    "message": "Package purchased successfully.",
+    "success": true,
+    "display": false,
+    "data": {
+        "transactionId": null,
+        "isExpired": 0,
+        "oldOrderNumber": null,
+        "version": 2,
+        "uniqueReferenceId": "ab2d49fb-88f4-11ee-a2c5-068aee6bae24",
+        "lastProcessState": null,
+        "id": 118986,
+        "createdAt": 1700629492025,
+        "updatedAt": 1700629492025,
+        "packagePaymentType": "CASH",
+        "activeDeposit": true,
+        "active": false,
+        "saleVolume": 500,
+        "status": null,
+        "rewardDistributed": false,
+        "isMigrated": false,
+        "comment": "DAHT-1802 Half package price",
+        "packageIssueType": "PAID",
+        "eligibleDate": null,
+        "paymentType": "RESERVE",
+        "tnxId": 0,
+        "isPoolMigrated": false,
+        "cronStatus": "PENDING",
+        "orderNumber": null,
+        "portfolioEnable": false,
+        "memberPackageAgainstId": null,
+        "paidAmount": 500,
+        "upgradedFrom": null,
+        "member": 120686,
+        "affiliatepackages": 4,
+        "marketingpackage": null
+    }
 }
