@@ -1,5 +1,6 @@
 package Basics;
 
+import genrics.Utils;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import junit.framework.Assert;
@@ -74,7 +75,7 @@ public class Basics extends payload {
         .when().get("maps/api/place/get/json")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
 
-        JsonPath js1=Reuseablemethods.rawtojson(res);
+        JsonPath js1= Utils.rawtojson(res);
         //JsonPath js1=new JsonPath(res);
        String respadd= js1.getString("address");
 //       Float latt= js1.getFloat("location.lat");

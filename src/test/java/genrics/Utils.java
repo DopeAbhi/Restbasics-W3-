@@ -36,7 +36,7 @@ public class Utils {
 
    //   ExtentReports extent=new ExtentReports() ; //for html report
         if (req==null) {
-            PrintStream log = new PrintStream(new FileOutputStream("/home/abhay/IdeaProjects/Restbasics-W3-/src/test/java/Logs/logging.txt"));
+            PrintStream log = new PrintStream(new FileOutputStream("/Users/abhayverma/IdeaProjects/BasicsofRest/src/test/java/Logs/logging.txt"));
             req = new RequestSpecBuilder().setBaseUri(getGlobalValue("RestAssured.baseURIdev3"))
                     .addHeader("Content-Type", "application/json")
                     .addHeader("device-Type", "WEB")
@@ -59,7 +59,7 @@ public class Utils {
     public static ArrayList<String> excelAccess(String accesssheet) throws IOException {
 
         ArrayList<String> transferdata = new ArrayList<String>();
-        FileInputStream fis = new FileInputStream("/home/abhay/IdeaProjects/Restbasics-W3-/src/test/java/resources/Superone.xlsx");
+        FileInputStream fis = new FileInputStream("/Users/abhayverma/IdeaProjects/BasicsofRest/src/test/java/resources/Superone.xlsx");
         XSSFWorkbook workbook = new XSSFWorkbook(fis);
         int sheets = workbook.getNumberOfSheets();
         for (int i = 0; i < sheets; i++) {

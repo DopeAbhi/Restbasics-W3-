@@ -1,5 +1,6 @@
 package Basics;
 
+import genrics.Utils;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import junit.framework.Assert;
@@ -23,7 +24,7 @@ public class UnilevelBonus {
                 .queryParams("skips",0,"start",0,"end",""+end+"","page_num",25,"memberPackageId","117427")
                 .when().get("/reader/admin/getPayoutsList")
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
-        JsonPath rewardjson=Reuseablemethods.rawtojson(rewardresp);
+        JsonPath rewardjson=Utils.rawtojson(rewardresp);
         int j=0;
 
         String rewardtype;
@@ -42,7 +43,7 @@ public class UnilevelBonus {
                 .queryParams("searchType","referralCode","userSearchByDetail",""+profiteer+"","countrySearchInput","")
                 .when().get("/reader/admin/searchUserByReferralCode")
                 .then().assertThat().statusCode(200).extract().response().asString();
-     JsonPath searchjson=Reuseablemethods.rawtojson(searchresp);
+     JsonPath searchjson= Utils.rawtojson(searchresp);
      String highestpack=searchjson.getString("data.details[0].userRank");
      String email=searchjson.getString("data.details[0].email");
            System.out.println("Reward Receiver" +(j+1));
