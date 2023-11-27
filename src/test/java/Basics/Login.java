@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 
 public class Login {
-@Test
+@Test(groups ={"Regression"},priority = 1)
 public void logintest() throws IOException {
     Loginfeature("SBB1@gmail.com","Test@123");
 }

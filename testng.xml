@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="/Users/abhayverma/IdeaProjects/BasicsofRest">
+        <classes>
+            <class name="Basics.Login">
+                <methods>
+                    <include name="logintest"/>
+                </methods>
+            </class>
+            <class name="Basics.Transfer">
+                <methods>
+                    <include name="Transferfeature"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Regression">
+
+        <groups>
+            <run>
+            <include name="Regression"/>
+            </run>
+        </groups>
+    </test>
+
+</suite>

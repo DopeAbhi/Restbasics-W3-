@@ -5,6 +5,8 @@ import io.restassured.path.json.JsonPath;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import org.testng.annotations.Test;
 import payload.*;
 import genrics.APIResources;
 import genrics.Utils;
@@ -13,8 +15,13 @@ import static io.restassured.RestAssured.given;
 import static genrics.Utils.requestSpecification;
 
 public class Signup {
+    @Test(groups = {"Regression"},priority = 2)
+    public void signup_call() throws IOException {
+        ArrayList<String> Treedata = Utils.excelAccess("signup");
+        signupfeature(Treedata,"amrendra");
+    }
 
-    public static ArrayList<String> signupfeature(ArrayList<String> Treedata) throws IOException, IOException {
+    public static ArrayList<String> signupfeature(ArrayList<String> Treedata,String referral) throws IOException, IOException {
         //Excel Access
         ArrayList<String> signup_user_data = new ArrayList<String>();
         //User Status Check
@@ -64,7 +71,7 @@ public class Signup {
         //Verify Referral
         apiResources = APIResources.valueOf("verify_referral");
         given().spec(requestSpecification()).header("Token", token)
-                .body(usertreepayload.referralpayload(Treedata.get(0), "amrendra"))
+                .body(usertreepayload.referralpayload(Treedata.get(0), referral))
                 .when().post("/writer/v3/user/verifyReferral")
                 .then().assertThat().statusCode(200);
 
@@ -78,7 +85,7 @@ public class Signup {
         //Set First and Last Name
         apiResources = APIResources.valueOf("set_firstname_lastname");
         String flresponse = given().spec(requestSpecification())
-                .body(usertreepayload.namepayload(Treedata.get(3)))
+                .body(usertreepayload.namepayload(Treedata.get(3))).header("Token", token)
                 .when().put(apiResources.getResource())
                 .then().assertThat().statusCode(200).extract().response().asString();
         JsonPath fljson = Utils.rawtojson(flresponse);
@@ -88,16 +95,18 @@ public class Signup {
 
         //Avatar
         apiResources = APIResources.valueOf("set_avatar");
-        String avatar_response = given().spec(requestSpecification()).body(usertreepayload.avatarpayload(imageurl, userid))
+        String avatar_response = given().header("Token",token).spec(requestSpecification()).body(usertreepayload.avatarpayload(imageurl, userid))
                 .when().post(apiResources.getResource())
                 .then().log().all().assertThat().statusCode(200).extract().response().asString();
         JsonPath avatar_json = Utils.rawtojson(avatar_response);
         String rawreferral = avatar_json.getString("data.referralLink");
+        String usertoken = avatar_json.getString("data.token");
         String referral_link = rawreferral.substring((rawreferral.length()) - 10);
 
         // String referral_link=  avatar_json.getString("data.referralLink").substring((avatar_json.getString("data.referralLink").length()) - 10,  avatar_json.getString("data.referralLink").length());
 
-        signup_user_data.add(0, referral_link);
+        signup_user_data.add(0, usertoken);
+        signup_user_data.add(1, referral_link);
         System.out.println(referral_link);
 
         return signup_user_data;// change variable
@@ -105,8 +114,5 @@ public class Signup {
     }
 
 
-    public static void main(String[] args) throws IOException {
-        ArrayList<String> Treedata = Utils.excelAccess("signup");
-        signupfeature(Treedata);
-    }
+
 }

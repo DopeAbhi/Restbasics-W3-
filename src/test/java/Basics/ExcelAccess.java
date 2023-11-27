@@ -20,17 +20,18 @@ public class ExcelAccess {
         int sheets = workbook.getNumberOfSheets();
         for (int i = 0; i < sheets; i++) {
 
-            if (workbook.getSheetName(i).equalsIgnoreCase("Packpurchase")) {
+            if (workbook.getSheetName(i).equalsIgnoreCase("UserTree")) {
                 XSSFSheet sheet = workbook.getSheetAt(i);
 
 
                 Iterator<Row> rows = sheet.iterator();// sheet is collection of rows
                 rows.next();
+                int k = 0;
                 while (rows.hasNext()) {
                     Row row = rows.next();
 
                     Iterator<Cell> ce = row.cellIterator();
-                    int k = 0;
+
                     int column = 0;
 
                     while (ce.hasNext()) {
@@ -40,26 +41,23 @@ public class ExcelAccess {
                         switch (value.getCellType()) {
                             case NUMERIC -> {
                                 transferdata.add(k, String.valueOf(value.getNumericCellValue()));
-                                System.out.println(transferdata.get(k));
+                            //    System.out.println(transferdata.get(k));
                             }
-                            case STRING -> transferdata.add(k, value.getStringCellValue());
+                            case STRING -> {
+
+                                transferdata.add(k, value.getStringCellValue());
+                                //System.out.println(transferdata.get(k));
+                            }
                             default -> System.out.println("Any other case check log or excel");
                         }
                         k++;
-//                        if (value.getCellType().equals("NUMERIC")) {
 //
-//                            System.out.println(transferdata.get(k));
-//                            k++;
-//                        }
-//                        else {
-//                            transferdata.add(k, value.getStringCellValue());
-//                            System.out.println(transferdata.get(k));
-//                            k++;
 //
-//                        }
+//
 
                     }
                 }
+
 
             }
 

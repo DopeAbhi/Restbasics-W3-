@@ -17,7 +17,7 @@ public class Transfer {
 
 
     //    public static void main(String[] args) throws IOException, InterruptedException
-    @Test
+    @Test(groups = {"Regression"},priority = 3)
     public void Transferfeature() throws IOException {
 
         String requestId = null;
