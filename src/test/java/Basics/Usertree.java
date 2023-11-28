@@ -105,10 +105,10 @@ public void tree_creation() throws Exception
                         System.out.println(UserdataList.get(1));
                         //Add Balance
 
-//            given().header("Bypass-W3villa-Areyxukcyb", true).log().all().header("device-type", "WEB").header("Content-Type", "application/json").header("token", token)
-//                    .queryParams("email",""+parentemail+"","amount","100000","password","711b525c69e8b0edc6221518b8ff878f")
-//                    .when().get().
-//            then().log().all().assertThat().statusCode(200);
+            given().spec(requestSpecification()).header("Token",UserdataList.get(0))
+                    .queryParams("email",""+TreedataList.get(0)+"","amount","100000","password","711b525c69e8b0edc6221518b8ff878f")
+                    .when().get("/writer/test/api/addBalanceForTest").
+            then().log().all().assertThat().statusCode(200);
 
                     }
                     T = false;

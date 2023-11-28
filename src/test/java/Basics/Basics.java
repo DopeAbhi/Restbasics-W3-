@@ -7,11 +7,12 @@ import junit.framework.Assert;
 
 import java.util.Scanner;
 
+import static Basics.payload.Addplace;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.equalTo;
-
-public class Basics extends payload {
+import payload.usertreepayload;
+public class Basics   {
 
     //given-all input details
     //when-submit the api (path,type of request)
@@ -45,7 +46,7 @@ public class Basics extends payload {
 //                        "  \"language\": \"French-IN\"\n" +
 //                        "}\n" +
 //                        "\n")
-            .body(payload.Addplace(name,phoneno))
+            .body(Addplace(name,phoneno))
                 .when().post("/maps/api/place/add/json")
                 .then().log().all().assertThat().statusCode(200).body("scope",equalTo("APP"))
                 .header("server","Apache/2.4.52 (Ubuntu)").extract().response().asString();
