@@ -6,16 +6,17 @@ import java.util.List;
 
 public class Invitepayload {
 
-    public static String template_payload(List<Object> temp_data )
+    public static List<Object> template_payload(List<Object> temp_data )
     {
            createTemplatePayload payload=new createTemplatePayload();
-        payload.setBgImageUniqueId();
-        payload.setImageId();
-        payload.setMemberId();
-        payload.setMessage();
-        payload.setName();
-        payload.setShowUsername();
-        payload.setShowWelcomeImage();
-        payload.setTitle();
+        payload.setBgImageUniqueId((String) temp_data.get(0));
+        payload.setImageId((Integer) temp_data.get(1));
+        payload.setMemberId((String) temp_data.get(2));
+        payload.setMessage((String) temp_data.get(3));
+        payload.setName((String) temp_data.get(4));
+        payload.setShowUsername((Boolean) temp_data.get(5));
+        payload.setShowWelcomeImage((Boolean) temp_data.get(6));
+        payload.setTitle((String) temp_data.get(7));
+        return temp_data;
     }
 }

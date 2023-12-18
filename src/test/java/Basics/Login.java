@@ -2,6 +2,7 @@ package Basics;
 
 import static io.restassured.RestAssured.given;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import payload.usertreepayload;
 import io.restassured.path.json.JsonPath;
@@ -13,9 +14,11 @@ import java.util.ArrayList;
 
 
 public class Login {
-@Test(groups ={"Regression"},priority = 1)
-public void logintest() throws IOException {
-    Loginfeature("SBB1@gmail.com","Test@123");
+@Test(groups ={"Regression"},priority = 2)
+
+@Parameters({"email", "password"})
+public void logintest(String email,String Password) throws IOException {
+    Loginfeature(email,Password);
 }
     public static ArrayList<String> Loginfeature(String Email, String Password) throws IOException {     //User Status
         //System.out.println(login);
@@ -32,6 +35,7 @@ public void logintest() throws IOException {
         JsonPath login_json = Utils.rawtojson(login_response);
          logindata.add( 0,login_json.getString("data.token"));
         logindata.add(  1,login_json.getString("data.referralCode"));
+        logindata.add(  2,login_json.getString("data.member"));
         return logindata;
     }
 //    public static void main(String[] args) throws IOException {

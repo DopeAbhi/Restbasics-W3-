@@ -36,7 +36,8 @@ public class Utils {
 
    //   ExtentReports extent=new ExtentReports() ; //for html report
         if (req==null) {
-            PrintStream log = new PrintStream(new FileOutputStream("/home/abhay/IdeaProjects/Restbasics-W3-/src/test/java/Logs/logging.txt"));
+         //   PrintStream log = new PrintStream(new FileOutputStream("/home/abhay/IdeaProjects/Restbasics-W3-/src/test/java/Logs/logging.txt"));
+            PrintStream log = new PrintStream(new FileOutputStream("/Users/abhayverma/IdeaProjects/BasicsofRest/src/test/java/Logs/logging.txt"));
             req = new RequestSpecBuilder().setBaseUri(getGlobalValue("RestAssured.baseURIdev3"))
                     .addHeader("Content-Type", "application/json")
                     .addHeader("device-Type", "WEB")

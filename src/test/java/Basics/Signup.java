@@ -15,9 +15,10 @@ import static io.restassured.RestAssured.given;
 import static genrics.Utils.requestSpecification;
 
 public class Signup {
-    @Test(groups = {"Regression"},priority = 2)
-    public void signup_call() throws IOException {
-        ArrayList<String> Treedata = Utils.excelAccess("signup");
+    @Test(groups = {"Regression"},priority = 1)
+    public void signup_call(String email,String password,String firstName,String lastName) throws IOException {
+        ArrayList<String> Treedata ;
+
         signupfeature(Treedata,"amrendra");
     }
 
