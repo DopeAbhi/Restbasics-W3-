@@ -1,0 +1,168 @@
+Invite Images
+{
+  "message": "Invite image data found.",
+  "success": true,
+  "display": false,
+  "data": [
+    {
+      "id": 18,
+      "name": "SC CITY",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/invite-template-1.png"
+    },
+    {
+      "id": 19,
+      "name": "WORLD STARS",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/invite-template-2.png"
+    },
+    {
+      "id": 20,
+      "name": "SC MADRID",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/invite-template-3.png"
+    },
+    {
+      "id": 21,
+      "name": "SC ARSENAL",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/invite-template-4.png"
+    },
+    {
+      "id": 22,
+      "name": "SC MANCHESTER",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/invite-template-5.png"
+    },
+    {
+      "id": 23,
+      "name": "SC LIVERPOOL",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/sc-liverpool.png"
+    },
+    {
+      "id": 24,
+      "name": "SC BARCELONA",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/sc-barcelona.png"
+    },
+    {
+      "id": 25,
+      "name": "SC BAYERN",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/sc-bayern.png"
+    },
+    {
+      "id": 26,
+      "name": "SC DORTMUND",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/sc-dortmund.png"
+    }
+  ]
+}
+
+
+
+Background Invite Images
+
+{
+  "message": "Background Invite image data found.",
+  "success": true,
+  "display": false,
+  "data": [
+    {
+      "id": 27,
+      "uniqueReferenceId": "39fb9b90-892a-11ee-a2c5-068aee6bae24",
+      "name": "inviteBackgroundImage1",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/background-1.webp"
+    },
+    {
+      "id": 28,
+      "uniqueReferenceId": "39fb9c51-892a-11ee-a2c5-068aee6bae24",
+      "name": "inviteBackgroundImage2",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/background-2.webp"
+    },
+    {
+      "id": 29,
+      "uniqueReferenceId": "39fb9d0a-892a-11ee-a2c5-068aee6bae24",
+      "name": "inviteBackgroundImage3",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/background-3.webp"
+    },
+    {
+      "id": 30,
+      "uniqueReferenceId": "39fb9dd2-892a-11ee-a2c5-068aee6bae24",
+      "name": "inviteBackgroundImage4",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/background-4.webp"
+    },
+    {
+      "id": 31,
+      "uniqueReferenceId": "39fb9e8d-892a-11ee-a2c5-068aee6bae24",
+      "name": "inviteBackgroundImage5",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/background-5.webp"
+    },
+    {
+      "id": 32,
+      "uniqueReferenceId": "39fb9f53-892a-11ee-a2c5-068aee6bae24",
+      "name": "inviteBackgroundImage6",
+      "url": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/background-6.webp"
+    }
+  ]
+}
+
+
+
+
+Create Template Payload
+bgImageUniqueId: "39fb9e8d-892a-11ee-a2c5-068aee6bae24"
+imageId
+:
+19
+memberId
+:
+"120646"
+message
+:
+"ee"
+name
+:
+"tes"
+showUsername
+:
+true
+showWelcomeImage
+:
+true
+title
+:
+"tess"
+
+
+
+
+
+
+Create Template Reseponse
+
+{
+  "message": "Invite Template added successfully.",
+  "success": true,
+  "display": false,
+  "data": {
+    "id": 142,
+    "createdAt": 1702886625457,
+    "updatedAt": 1702886625457,
+    "memberId": 120646,
+    "name": "tes",
+    "title": "tess",
+    "message": "ee",
+    "imageurl": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/invite-template-2.png",
+    "backgroundImage": "https://superlabs-assets.s3.eu-west-2.amazonaws.com/invite/background-5.webp",
+    "linkurl": "https://dw99y.app.link/SBB2+4",
+    "colour": "",
+    "oldLinkurl": "https://dw99y.app.link/SBB2+4",
+    "templateId": 4,
+    "isActive": true,
+    "showWelcomeImage": true,
+    "showUsername": true,
+    "uniqueId": "2adccf76-1dce-495d-9f2f-0f68dd8e78a9",
+    "comment": null
+  }
+}
+
+
+
+
+
+
+

@@ -21,7 +21,11 @@ public enum APIResources {
     send_otp("/writer/sendOtpFor2FA"),
     verify_otp("/writer/verifyFor2FA"),
     get_preferences("/writer/getPreferences"),
-    pack_purchase("/writer/member/package/103138");
+    pack_purchase("/writer/member/package/103138"),
+    background_invite_images("/reader/user/backgroundinviteImages"),
+    invite_images("/reader/user/inviteImages"),
+    templates_list("/reader/user/templates"),
+    create_template("/writer/user/createtemplate");
 
     private String resources;
 
