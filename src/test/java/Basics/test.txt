@@ -105,27 +105,13 @@ Background Invite Images
 
 Create Template Payload
 bgImageUniqueId: "39fb9e8d-892a-11ee-a2c5-068aee6bae24"
-imageId
-:
-19
-memberId
-:
-"120646"
-message
-:
-"ee"
-name
-:
-"tes"
-showUsername
-:
-true
-showWelcomeImage
-:
-true
-title
-:
-"tess"
+imageId:19
+memberId:"120646"
+message:"ee"
+name:"tes"
+showUsername:true
+showWelcomeImage:true
+title:"tess"
 
 
 

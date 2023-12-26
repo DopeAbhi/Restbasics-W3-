@@ -7,6 +7,7 @@
             <parameter name="password" value="Test@123"/>
             <parameter name="firstName" value="SBB99"/>
             <parameter name="lastName" value="Test"/>
+            <parameter name="inviteImageName" value="SC CITY"/>
 
             <groups>
                 <run>
