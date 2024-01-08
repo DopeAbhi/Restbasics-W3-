@@ -1,5 +1,9 @@
 package Basics;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
 import genrics.APIResources;
 import genrics.Utils;
 
@@ -14,6 +18,7 @@ import static com.google.common.base.Ascii.equalsIgnoreCase;
 import static io.restassured.RestAssured.given;
 
 import io.restassured.path.json.JsonPath;
+import org.json.simple.JSONArray;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -43,14 +48,19 @@ public class invite {
         String invite_resp = given().spec(Utils.requestSpecification()).header("Token", logindata.get(0))
                 .when().get(apiResources.getResource()).then().assertThat().statusCode(200).extract().response().asString();
         JsonPath invite_images_json = Utils.rawtojson(invite_resp);
-        Object[] img_data = invite_images_json.getJsonObject("data");
-        int length = img_data.length;
+//        System.out.println(invite_images_json.getJsonObject("data").getClass().getName());
+//
+        ArrayList<Object> img_data=  invite_images_json.getJsonObject("data");
+
+    int length = img_data.size();
         int i = 0;
         while (i < length) {
-            if (equalsIgnoreCase(invite_images_json.getString("data.name"), imageName)) {
-                image_id = invite_images_json.getInt("data[" + i + "].id");
+            if (equalsIgnoreCase(invite_images_json.getString("data["+i+"].name"), imageName)) {
+                image_id = invite_images_json.getInt("data["+i+"].id");
+                System.out.println(image_id);
             }
-
+            i++;
+        }
 
             template_data.add(back_image_id);
             template_data.add(image_id);
@@ -68,7 +78,6 @@ public class invite {
                     .when().post(apiResources.getResource()).then().assertThat().statusCode(200).extract().response().asString();
 
 
-            i++;
-        }
+
     }
 }
