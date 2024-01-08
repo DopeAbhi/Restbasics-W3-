@@ -29,11 +29,12 @@ public class invite {
     ArrayList<String> logindata = new ArrayList<>();
     List<Object> template_data = new ArrayList<>();
     Integer image_id;
-    Map<String, Object> inviteImg = new HashMap();
+    String back_image_id;
+    Map<String, Object> inviteImg = new HashMap<>();
 
     @Test(groups = {"Regression"}, priority = 1)
-    @Parameters({"email","password","inviteImageName"})
-    public void inviteTest(String email, String password, String imageName) throws IOException {
+    @Parameters({"email","password","inviteImageName","backInviteImage"})
+    public void inviteTest(String email, String password, String imageName, String back_image_name) throws IOException {
         logindata = Loginfeature(email, password);
         System.out.println(logindata.get(0));
         //Background Invite Images
@@ -41,7 +42,7 @@ public class invite {
         String back_invite_resp = given().spec(Utils.requestSpecification()).header("Token", logindata.get(0))
                 .when().get(apiResources.getResource()).then().assertThat().statusCode(200).extract().response().asString();
         JsonPath back_invite_json = Utils.rawtojson(back_invite_resp);
-        String back_image_id = back_invite_json.getString("data[0].uniqueReferenceId");
+
 
 
         apiResources = APIResources.valueOf("invite_images");
@@ -59,14 +60,20 @@ public class invite {
                 image_id = invite_images_json.getInt("data["+i+"].id");
                 System.out.println(image_id);
             }
+                if(equalsIgnoreCase(back_invite_json.getString("data["+i+"].name"),back_image_name))
+                {
+                    back_image_id=back_invite_json.getString("data["+i+"].uniqueReferenceId");
+                    System.out.println(back_image_id);
+                }
+
             i++;
         }
 
             template_data.add(back_image_id);
             template_data.add(image_id);
             template_data.add(logindata.get(2));
-            template_data.add("Template Creation");
-            template_data.add("Test");
+            template_data.add("8Jan Template");
+            template_data.add("8 Jan Test");
             template_data.add(true);
             template_data.add(true);
             template_data.add("Test Title");
