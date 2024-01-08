@@ -17,8 +17,11 @@ import static genrics.Utils.requestSpecification;
 public class Signup {
     @Test(groups = {"Regression"},priority = 1)
     public void signup_call(String email,String password,String firstName,String lastName) throws IOException {
-        ArrayList<String> Treedata ;
-
+        ArrayList<String> Treedata = null;
+        Treedata.add(email);
+        Treedata.add(password);
+        Treedata.add(firstName);
+        Treedata.add(lastName);
         signupfeature(Treedata,"amrendra");
     }
 
@@ -27,7 +30,7 @@ public class Signup {
         ArrayList<String> signup_user_data = new ArrayList<String>();
         //User Status Check
         APIResources apiResources = APIResources.valueOf("user_status_check");
-        String statusresp = given().spec(Utils.requestSpecification())
+        String statusresp = given().spec(requestSpecification())
                 .body(usertreepayload.userstatuspayload(Treedata.get(0)))
                 .when().post(apiResources.getResource())
                 .then().assertThat().statusCode(200).extract().response().asString();//Get Verification URL

@@ -26,8 +26,8 @@ public class invite {
     Integer image_id;
     Map<String, Object> inviteImg = new HashMap();
 
-    @Test(groups = {"Regression"}, priority = 5)
-    @Parameters({"email", "password", "inviteImageName"})
+    @Test(groups = {"Regression"}, priority = 1)
+    @Parameters({"email","password","inviteImageName"})
     public void inviteTest(String email, String password, String imageName) throws IOException {
         logindata = Loginfeature(email, password);
         System.out.println(logindata.get(0));
@@ -43,7 +43,7 @@ public class invite {
         String invite_resp = given().spec(Utils.requestSpecification()).header("Token", logindata.get(0))
                 .when().get(apiResources.getResource()).then().assertThat().statusCode(200).extract().response().asString();
         JsonPath invite_images_json = Utils.rawtojson(invite_resp);
-        String[] img_data = invite_images_json.getJsonObject("data");
+        Object[] img_data = invite_images_json.getJsonObject("data");
         int length = img_data.length;
         int i = 0;
         while (i < length) {

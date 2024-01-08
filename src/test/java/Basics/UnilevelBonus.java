@@ -8,6 +8,7 @@ import junit.framework.Assert;
 import java.util.Date;
 
 import static io.restassured.RestAssured.given;
+import static org.testng.TestNGAntTask.Mode.junit;
 
 public class UnilevelBonus {
 

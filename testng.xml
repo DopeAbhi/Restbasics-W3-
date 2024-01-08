@@ -7,13 +7,11 @@
             <parameter name="password" value="Test@123"/>
             <parameter name="firstName" value="SBB99"/>
             <parameter name="lastName" value="Test"/>
-            <parameter name="inviteImageName" value="SC CITY"/>
+            <parameter name="inviteImageName" value="WORLD STARS"/>
 
-            <groups>
-                <run>
-                    <include name="Regression"/>
-                </run>
-            </groups>
+                    <classes>
+                        <class name="Basics.invite"/>
+                    </classes>
 
 
     </test>
